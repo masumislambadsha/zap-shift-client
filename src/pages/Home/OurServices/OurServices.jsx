@@ -6,13 +6,13 @@ import { Package, Truck, Home, Building2, RotateCcw, ArrowRight } from 'lucide-r
 const ServiceCard = ({ title, description, icon, isHighlighted = false }) => {
   return (
     <div
-      className={`group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
+      className={`group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl p-[] ${
         isHighlighted
-          ? 'bg-white text-gray-800' // Changed: Now starts white like others
+          ? 'bg-white text-gray-800'
           : 'bg-white text-gray-800'
-      } hover:bg-gradient-to-br hover:from-green-400 hover:to-emerald-500 hover:text-white`}
+      } hover:bg-primary `}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
       <div className="relative z-10">
         <div className={`mb-4 flex h-16 w-16 items-center justify-center rounded-full transition-colors duration-300 ${
@@ -23,8 +23,8 @@ const ServiceCard = ({ title, description, icon, isHighlighted = false }) => {
           {React.cloneElement(icon, {
             className: `h-8 w-8 transition-colors duration-300 ${
               isHighlighted
-                ? 'text-green-600 group-hover:text-white'
-                : 'text-green-600 group-hover:text-white'
+                ? 'text-green-600'
+                : 'text-green-600'
             }`
           })}
         </div>
@@ -32,14 +32,14 @@ const ServiceCard = ({ title, description, icon, isHighlighted = false }) => {
         <h3 className="mb-3 text-xl font-bold">{title}</h3>
         <p className={`text-sm leading-relaxed transition-colors duration-300 ${
           isHighlighted
-            ? 'text-gray-600 group-hover:text-white/90'
-            : 'text-gray-600 group-hover:text-white/90'
+            ? 'text-gray-600 '
+            : 'text-gray-600 '
         }`}>
           {description}
         </p>
       </div>
 
-      <ArrowRight className="absolute bottom-6 right-6 h-5 w-5 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 text-white" />
+      <ArrowRight className="absolute bottom-6 right-6 h-5 w-5 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 " />
     </div>
   );
 };
@@ -80,7 +80,7 @@ export default function OurServices() {
   ];
 
   return (
-    <section className="bg-gradient-to-b from-slate-900 to-teal-950 py-16 px-4 lg:py-24">
+    <section className="bg-secondary py-16 px-4 lg:p-24 rounded-[50px]">
       <div className="mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
