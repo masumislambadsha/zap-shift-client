@@ -41,7 +41,7 @@ export default function Carousel() {
           <div
             key={i}
             className={`
-              flex-shrink-0 w-full h-[150px] md:h-[330px] relative
+              shrink-0 w-full h-[150px] md:h-[330px] relative
               /* Mobile: contain + bottom-aligned */
               bg-contain bg-no-repeat
               /* Desktop: cover + center */
