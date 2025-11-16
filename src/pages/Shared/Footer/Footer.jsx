@@ -1,11 +1,10 @@
 import React from "react";
-import logo from "../../../assets/logo.png"
 import Logo from "../../../Components/Logo/Logo";
 
 const Footer = () => {
   return (
     <div>
-      <footer className="footer text-secondary footer-horizontal footer-center  text-primary-content p-10">
+      <footer className="footer text-secondary footer-horizontal footer-center p-10">
         <aside>
           <Logo/>
           <p className="font-bold">
