@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { FaArrowUpRightDots } from "react-icons/fa6";
-;
 
 const faqData = [
   {
@@ -31,7 +30,7 @@ const Accordion = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="bg-gray-50 p-8 rounded-lg max-w-2xl w-full mx-auto">
+    <div className="bg-gray-50 p-8 rounded-lg max-w-2xl w-full mx-auto my-20">
       <h2 className="text-3xl font-bold text-center mb-2">
         Frequently Asked Question (FAQ)
       </h2>
