@@ -1,9 +1,13 @@
 import React from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { useLoaderData } from "react-router";
 
 const Coverage = () => {
   const position = [23.8041, 90.4152];
+  const serviceCenters = useLoaderData()
+  console.log(serviceCenters);
+  
   return (
     <div>
       <h1 className="text-4xl capitalize p-5 text-secondary font-bold">
