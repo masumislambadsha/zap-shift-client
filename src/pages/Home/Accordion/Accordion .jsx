@@ -71,7 +71,7 @@ const Accordion = () => {
       ))}
 
       <div className="flex justify-center items-center mt-6">
-        <button className="bg-lime-200 text-gray-900 font-semibold py-2 px-6 rounded-full flex items-center hover:bg-lime-300 transition">
+        <button className="bg-primary text-gray-900 font-semibold py-2 px-6 rounded-full flex items-center hover:bg-lime-300 transition">
           See More FAQ's
           <FaArrowUpRightDots className="ml-2 text-black" />
         </button>
