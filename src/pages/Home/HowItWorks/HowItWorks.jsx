@@ -8,7 +8,7 @@ const HowItWorks = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-teal-800 mb-8 text-center md:text-left">
           How it Works
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: Booking Pick & Drop */}
           <div className="bg-white hover:bg-primary transition duration-500 p-6 rounded-lg shadow-md text-center">
             <div className="flex justify-center mb-4">
