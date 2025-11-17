@@ -552,9 +552,9 @@
     "latitude": 24.85
   },
   {
-    "region": "Barisal",
-    "district": "Barisal",
-    "city": "Barisal",
+    "region": "Barishal",
+    "district": "Barishal",
+    "city": "Barishal",
     "covered_area": [
       "Band Road",
       "Cox’s Road",
@@ -568,7 +568,7 @@
     "latitude": 22.7
   },
   {
-    "region": "Barisal",
+    "region": "Barishal",
     "district": "Bhola",
     "city": "Bhola",
     "covered_area": ["Borhanuddin", "Tazumuddin", "Daulatkhan", "Char Fasson"],
@@ -578,7 +578,7 @@
     "latitude": 22.685
   },
   {
-    "region": "Barisal",
+    "region": "Barishal",
     "district": "Patuakhali",
     "city": "Patuakhali",
     "covered_area": ["Kalapara", "Mirzaganj", "Dashmina", "Galachipa"],
@@ -588,7 +588,7 @@
     "latitude": 22.35
   },
   {
-    "region": "Barisal",
+    "region": "Barishal",
     "district": "Pirojpur",
     "city": "Pirojpur",
     "covered_area": ["Mathbaria", "Bhandaria", "Kawkhali", "Nazirpur"],
@@ -598,7 +598,7 @@
     "latitude": 22.5833
   },
   {
-    "region": "Barisal",
+    "region": "Barishal",
     "district": "Barguna",
     "city": "Barguna",
     "covered_area": ["Amtali", "Patharghata", "Betagi", "Bamna"],
@@ -608,7 +608,7 @@
     "latitude": 22.1667
   },
   {
-    "region": "Barisal",
+    "region": "Barishal",
     "district": "Jhalokati",
     "city": "Jhalokati",
     "covered_area": ["Nalchity", "Rajapur", "Kathalia"],
