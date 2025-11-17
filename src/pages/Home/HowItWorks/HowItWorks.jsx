@@ -1,4 +1,3 @@
-// src/components/HowItWorks.jsx
 import React from "react";
 
 const HowItWorks = () => {
