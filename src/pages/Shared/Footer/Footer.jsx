@@ -1,59 +1,38 @@
-import React from "react";
-import Logo from "../../../Components/Logo/Logo";
+import { FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa";
+import logo from "../../../assets/logo.png";
+import { FaXTwitter } from "react-icons/fa6";
 
-const Footer = () => {
-  return (
-    <div>
-      <footer className="footer text-secondary footer-horizontal footer-center p-10">
-        <aside>
-          <Logo/>
-          <p className="font-bold">
-            ACME Industries Ltd.
-            <br />
-            Providing reliable tech since 1992
-          </p>
-          <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
-        </aside>
-        <nav>
-          <div className="grid grid-flow-col gap-4">
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                className="fill-current"
-              >
-                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-              </svg>
-            </a>
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                className="fill-current"
-              >
-                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-              </svg>
-            </a>
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                className="fill-current"
-              >
-                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-              </svg>
-            </a>
-          </div>
-        </nav>
-      </footer>
+const Footer = () => (
+  <footer className="w-full bg-[#111211] py-8 px-3 md:px-0 rounded-b-[20px]">
+    <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
+      <img src={logo} alt="ZapShift" className="h-[30px] mb-3 mx-auto" draggable="false" />
+      <p className="text-[#C0C1C1] text-base md:text-[0.98rem] max-w-xl mx-auto mb-4 px-2 leading-relaxed">
+        Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments – we deliver on time, every time.
+      </p>
+      <ul className="flex flex-wrap gap-y-3 gap-x-8 justify-center mb-4 text-[#fafafa] text-base md:text-[0.97rem] font-normal">
+        <li className="w-1/2 sm:w-auto text-center">Services</li>
+        <li className="w-1/2 sm:w-auto text-center">Coverage</li>
+        <li className="w-1/2 sm:w-auto text-center">About Us</li>
+        <li className="w-1/2 sm:w-auto text-center">Pricing</li>
+        <li className="w-1/2 sm:w-auto text-center">Blog</li>
+        <li className="w-1/2 sm:w-auto text-center">Contact</li>
+      </ul>
+      <div className="flex gap-6 justify-center items-center mt-1 mb-2">
+        <a href="#" aria-label="LinkedIn">
+          <FaLinkedinIn className="text-[#57A5C3] text-2xl md:text-xl hover:scale-110 transition" />
+        </a>
+        <a href="#" aria-label="Twitter/X">
+          <FaXTwitter className="text-[#C0C1C1] text-2xl md:text-xl hover:scale-110 transition" />
+        </a>
+        <a href="#" aria-label="Facebook">
+          <FaFacebookF className="text-[#3685D6] text-2xl md:text-xl hover:scale-110 transition" />
+        </a>
+        <a href="#" aria-label="YouTube">
+          <FaYoutube className="text-[#FB2A2A] text-2xl md:text-xl hover:scale-110 transition" />
+        </a>
+      </div>
     </div>
-  );
-};
+  </footer>
+);
 
 export default Footer;

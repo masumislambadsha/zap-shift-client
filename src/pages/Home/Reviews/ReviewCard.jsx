@@ -2,23 +2,23 @@ import React from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 
 const ReviewCard = ({ review }) => {
-  const { userName, review: testimonial , user_photoURL} = review;
+  const { userName, review: testimonial, user_photoURL } = review;
+
   return (
-    <div>
-      <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
-        <FaQuoteLeft className="text-primary text-2xl mb-2" />
-        <p className="text-gray-700 text-base mb-6">{testimonial}
-        </p>
-        <hr className="mb-4 border-t border-gray-200" />
-        <div className="flex items-center">
-          <div/>
-          <img src={user_photoURL} alt=""  className="w-10 h-10 bg-primary rounded-full shrink-0 mr-3" />
-          <div>
-            <div className="text-gray-900 font-semibold text-base">
-             {userName}
-            </div>
-            <div className="text-gray-500 text-sm">Senior Product Designer</div>
-          </div>
+    <div className="bg-white rounded-xl shadow-xl p-5 sm:p-7 md:p-8 w-full max-w-[280px] mx-auto flex flex-col h-full">
+      <FaQuoteLeft className="text-[#70B2B2] text-2xl sm:text-3xl mb-4" />
+      <p className="text-[#264A43] text-sm sm:text-base md:text-lg mb-6 font-medium leading-relaxed flex-grow">
+        {testimonial}
+      </p>
+      <div className="flex items-center mt-auto pt-4 border-t border-gray-100">
+        <img
+          src={user_photoURL}
+          alt={userName}
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover mr-3 ring-2 ring-[#70B2B2]/20"
+        />
+        <div>
+          <h3 className="text-[#1C3F3A] font-semibold text-sm sm:text-base">{userName}</h3>
+          <p className="text-[#9ECFD4] text-xs sm:text-sm font-medium">Senior Product Designer</p>
         </div>
       </div>
     </div>
