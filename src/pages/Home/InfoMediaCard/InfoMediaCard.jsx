@@ -27,7 +27,7 @@ const InfoMediaCard = () => (
     {features.map((item, i) => (
       <div
         key={item.title}
-        className={`flex items-center bg-white rounded-xl p-6 mb-6 ${
+        className={`flex flex-col md:flex-row md:gap-0 gap-5 items-center bg-white rounded-xl p-6 mb-6 ${
           i === 1 ? "bg-blue-50" : ""
         }`}
       >
