@@ -1,12 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../Hooks/useAuth";
 
 const Register = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const {register,handleSubmit,formState: { errors },} = useForm();
+  const {registerUser} = useAuth()
   const handleRegistration = (data) => {
     console.log(data);
   };
@@ -30,7 +28,7 @@ const Register = () => {
             {...register("password", {
               required: true,
               minLength: 6,
-              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/
+              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
             })}
             className="input"
             placeholder="Password"
