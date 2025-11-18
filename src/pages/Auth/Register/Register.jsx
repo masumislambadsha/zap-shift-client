@@ -30,6 +30,7 @@ const Register = () => {
             {...register("password", {
               required: true,
               minLength: 6,
+              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/
             })}
             className="input"
             placeholder="Password"
