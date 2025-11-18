@@ -7,6 +7,14 @@ const Register = () => {
   const {registerUser} = useAuth()
   const handleRegistration = (data) => {
     console.log(data);
+    registerUser(data.email, data.password)
+    .then(result =>{
+      console.log(result.user);
+    })
+    .catch(err =>{
+      console.log(err);
+
+    })
   };
   return (
     <div className="mx-auto">
@@ -42,10 +50,7 @@ const Register = () => {
           {errors.password?.type === "required" && (
             <p className="text-red-600">Password Is Required</p>
           )}
-          <div>
-            <a className="link link-hover">Forgot password?</a>
-          </div>
-          <button className="btn btn-neutral mt-4">Login</button>
+          <button className="btn btn-neutral mt-4">Register</button>
         </fieldset>
       </form>
     </div>
