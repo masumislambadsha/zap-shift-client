@@ -7,7 +7,7 @@ const AuthLayout = () => {
   return (
     <div className='max-w-7xl mx-auto'>
       <Logo/>
-      <div className='flex md:flex-row flex-col-reverse justify-between items-center'>
+      <div className='flex md:flex-row flex-col-reverse justify-around items-center'>
       <Outlet/>
       <img src={authImage} alt="" />
       </div>
