@@ -1,10 +1,9 @@
 import React, { use } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import topImg  from "../../../assets/customer-top.png"
+import topImg from "../../../assets/customer-top.png";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-
 
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 import ReviewCard from "./ReviewCard";
@@ -28,7 +27,12 @@ const Reviews = ({ reviewsPromise }) => {
         loop={true}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={3}
+        slidesPerView={1}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+          },
+        }}
         coverflowEffect={{
           rotate: 30,
           stretch: "50%",
