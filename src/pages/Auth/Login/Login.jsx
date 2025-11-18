@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
+import { Link } from "react-router";
 
 const Login = () => {
   const {
@@ -13,17 +14,18 @@ const Login = () => {
   const handleLogin = (data) => {
     console.log(data);
     signInUser(data.email, data.password)
-    .then(result =>{
-      console.log(result.user)
-    })
-    .catch(err=>{
-      console.log(err);
-
-    })
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div>
-      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
+        <h3 className="text-3xl text-center font-medium">Welcome Back </h3>
+        <p className="text-center font-medium">Please Login</p>
         <form onSubmit={handleSubmit(handleLogin)} class="card-body">
           <fieldset class="fieldset">
             <label class="label">Email</label>
@@ -51,6 +53,12 @@ const Login = () => {
             </div>
             <button class="btn btn-neutral mt-4">Login</button>
           </fieldset>
+          <p className="text-sm ">
+            New To zapShift?{" "}
+            <Link className="underline text-blue-500" to={"/register"}>
+              Register
+            </Link>{" "}
+          </p>
         </form>
       </div>
     </div>

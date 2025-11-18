@@ -1,24 +1,30 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
+import { Link } from "react-router";
 
 const Register = () => {
-  const {register,handleSubmit,formState: { errors },} = useForm();
-  const {registerUser} = useAuth()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { registerUser } = useAuth();
   const handleRegistration = (data) => {
     console.log(data);
     registerUser(data.email, data.password)
-    .then(result =>{
-      console.log(result.user);
-    })
-    .catch(err =>{
-      console.log(err);
-
-    })
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
-    <div className="mx-auto">
-      <form onSubmit={handleSubmit(handleRegistration)}>
+    <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
+      <h3 className="text-3xl text-center font-medium">Welcome To Zap Shift</h3>
+      <p className="text-center font-medium">Please Register</p>
+      <form onSubmit={handleSubmit(handleRegistration)} className="card-body">
         <fieldset className="fieldset">
           <label className="label">Email</label>
           <input
@@ -52,6 +58,13 @@ const Register = () => {
           )}
           <button className="btn btn-neutral mt-4">Register</button>
         </fieldset>
+
+        <p className="text-sm ">
+          Already have an account{" "}
+          <Link className="underline text-blue-500" to={"/login"}>
+            Login
+          </Link>{" "}
+        </p>
       </form>
     </div>
   );
