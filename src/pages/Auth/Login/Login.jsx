@@ -9,13 +9,22 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signInUser } = useAuth();
+  const { signInUser, signInGoogle } = useAuth();
 
   const handleLogin = (data) => {
     console.log(data);
     signInUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleGoogleSignIn = () => {
+    signInGoogle()
+      .then((res) => {
+        console.log(res.user);
       })
       .catch((err) => {
         console.log(err);
@@ -61,7 +70,10 @@ const Login = () => {
           </p>
         </form>
         <p className="text-center -mt-[15px] mb-2">OR</p>
-        <button class="btn bg-white text-black border-[#e5e5e5] mb-6">
+        <button
+          onClick={handleGoogleSignIn}
+          class="btn bg-white text-black border-[#e5e5e5] mb-6"
+        >
           <svg
             aria-label="Google logo"
             width="16"

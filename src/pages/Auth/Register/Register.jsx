@@ -9,12 +9,22 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { registerUser } = useAuth();
+  const { registerUser, signInGoogle } = useAuth();
   const handleRegistration = (data) => {
     console.log(data);
     registerUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInGoogle()
+      .then((res) => {
+        console.log(res.user);
       })
       .catch((err) => {
         console.log(err);
@@ -67,7 +77,10 @@ const Register = () => {
         </p>
       </form>
       <p className="text-center -mt-[15px] mb-2">OR</p>
-      <button class="btn bg-white text-black border-[#e5e5e5] mb-6">
+      <button
+        onClick={handleGoogleSignIn}
+        class="btn bg-white text-black border-[#e5e5e5] mb-6"
+      >
         <svg
           aria-label="Google logo"
           width="16"
