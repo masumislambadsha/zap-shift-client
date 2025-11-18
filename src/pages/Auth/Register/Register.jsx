@@ -36,6 +36,26 @@ const Register = () => {
       <p className="text-center font-medium">Please Register</p>
       <form onSubmit={handleSubmit(handleRegistration)} className="card-body">
         <fieldset className="fieldset">
+          <label className="label">Name</label>
+          <input
+            type="text"
+            {...register("name", { required: true })}
+            className="input"
+            placeholder="Your Name"
+          />
+          {errors.email?.type === "required" && (
+            <p className="text-red-600">Name Is Required</p>
+          )}
+          <label className="label">Image</label>
+          <input
+            type="file"
+            {...register("photo", { required: true })}
+            className="file-input"
+            placeholder="Your Photo"
+          />
+          {errors.email?.type === "required" && (
+            <p className="text-red-600">Photo Is Required</p>
+          )}
           <label className="label">Email</label>
           <input
             type="email"
