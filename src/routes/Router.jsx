@@ -8,6 +8,7 @@ import Register from "../pages/Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import BeARider from "../pages/BeARider/BeARider";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import SendAParcel from "../pages/SendAParcel/SendAParcel";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <BeARider />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/sendAParcel",
+        element: (
+          <PrivateRoute>
+            <SendAParcel />
           </PrivateRoute>
         ),
       },
