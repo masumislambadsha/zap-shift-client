@@ -7,6 +7,7 @@ import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import BeARider from "../pages/BeARider/BeARider";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             <BeARider />
           </PrivateRoute>
         ),
+      },
+      {
+        path:"/aboutus",
+        Component: AboutUs
       },
       {
         path: "/coverage",

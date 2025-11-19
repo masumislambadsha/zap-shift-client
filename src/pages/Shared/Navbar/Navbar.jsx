@@ -6,23 +6,17 @@ import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  const links = (
-    <>
-      <li>
-        <NavLink to={"/"}>Services</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/coverage"}>Coverage</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/rider"}>Rider</NavLink>
-      </li>
-    </>
-  );
+  const navItems = [
+    { to: "/", label: "Services" },
+    { to: "/coverage", label: "Coverage" },
+    { to: "/aboutus", label: "About Us" },
+    { to: "/sendAParcel", label: "Send A Parcel" },
+    { to: "/rider", label: "Be a Rider" },
+  ];
   const handleSignOut = () => {
     logOut()
-      .then(() =>{
-        toast.success("Logged Out Successfully")
+      .then(() => {
+        toast.success("Logged Out Successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -54,7 +48,22 @@ const Navbar = () => {
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              {links}
+              <ul className="flex gap-8 items-center">
+                {navItems.map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-lime-200 rounded-full px-6 py-2 text-green-900 font-medium transition-colors"
+                          : "text-gray-700 hover:text-green-700 transition"
+                      }
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
             </ul>
           </div>
           <a href="/" className="btn btn-ghost text-xl">
@@ -62,11 +71,31 @@ const Navbar = () => {
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{links}</ul>
+          <ul className="menu menu-horizontal px-1">
+            <ul className="flex gap-8 items-center">
+              {navItems.map((item) => (
+                <li key={item.to}>
+                  <NavLink
+                    to={item.to}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-lime-200 rounded-full px-6 py-2 text-green-900 font-medium transition-colors"
+                        : "text-gray-700 hover:text-green-700 transition"
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </ul>
         </div>
         <div className="navbar-end">
           {user ? (
-            <a onClick={handleSignOut} className="btn btn-ghost text-black border border-gray-300 rounded-xl">
+            <a
+              onClick={handleSignOut}
+              className="btn btn-ghost text-black border border-gray-300 rounded-xl"
+            >
               Log Out
             </a>
           ) : (
@@ -74,7 +103,10 @@ const Navbar = () => {
               Login
             </a>
           )}
-          <a href="/rider" className="btn btn-primary rounded-xl mx-2 text-black">
+          <a
+            href="/rider"
+            className="btn btn-primary rounded-xl mx-2 text-black"
+          >
             Be A Rider
           </a>
         </div>
