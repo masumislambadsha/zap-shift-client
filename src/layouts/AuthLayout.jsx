@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../Components/Logo/Logo";
 import { Outlet } from "react-router";
 import authImage from "../assets/authImage.png";
+import { Toaster } from "react-hot-toast";
 
 const AuthLayout = () => {
   return (
@@ -15,6 +16,16 @@ const AuthLayout = () => {
           <img src={authImage} alt="" />
         </div>
       </div>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          duration: 2000,
+          style: {
+            fontFamily: "inherit",
+            borderRadius: "12px",
+          },
+        }}
+      />
     </div>
   );
 };

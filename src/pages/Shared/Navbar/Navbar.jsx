@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../../../Components/Logo/Logo";
 import { NavLink } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -11,16 +12,18 @@ const Navbar = () => {
         <NavLink to={"/"}>Services</NavLink>
       </li>
       <li>
-        <NavLink to={"/"}>About Us</NavLink>
+        <NavLink to={"/coverage"}>Coverage</NavLink>
       </li>
       <li>
-        <NavLink to={"/coverage"}>Coverage</NavLink>
+        <NavLink to={"/rider"}>Rider</NavLink>
       </li>
     </>
   );
   const handleSignOut = () => {
     logOut()
-      .then()
+      .then(() =>{
+        toast.success("Logged Out Successfully")
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -71,7 +74,7 @@ const Navbar = () => {
               Login
             </a>
           )}
-          <a href="/bearider" className="btn btn-primary rounded-xl mx-2 text-black">
+          <a href="/rider" className="btn btn-primary rounded-xl mx-2 text-black">
             Be A Rider
           </a>
         </div>

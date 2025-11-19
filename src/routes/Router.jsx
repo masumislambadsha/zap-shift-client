@@ -5,36 +5,45 @@ import Coverage from "../pages/Coverage/Coverage";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
+import PrivateRoute from "./PrivateRoute";
+import BeARider from "../pages/BeARider/BeARider";
 
 export const router = createBrowserRouter([
   {
-    path:"/",
+    path: "/",
     Component: RootLayout,
-    children:[
+    children: [
       {
         index: true,
-        Component: Home
+        Component: Home,
       },
       {
-        path:"/coverage",
-        Component:Coverage,
-        loader: () => fetch("/serviceCenter.json").then(res => res.json())
-      }
-    ]
+        path: "/rider",
+        element: (
+          <PrivateRoute>
+            <BeARider />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/coverage",
+        Component: Coverage,
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
+      },
+    ],
   },
   {
-    path:"/",
+    path: "/",
     Component: AuthLayout,
-    children:[
+    children: [
       {
-        path:"/login",
-        Component: Login
+        path: "/login",
+        Component: Login,
       },
       {
-        path:"/register",
-        Component: Register
+        path: "/register",
+        Component: Register,
       },
-
-    ]
-  }
-])
+    ],
+  },
+]);

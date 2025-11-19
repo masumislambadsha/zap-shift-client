@@ -1,7 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -9,13 +10,19 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const location = useLocation();
+  console.log(location)
+  const navigate = useNavigate();
+
   const { signInUser, signInGoogle } = useAuth();
 
   const handleLogin = (data) => {
     console.log(data);
     signInUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
+        navigate(location.state || "/");
+        toast.success("Logged In Successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -25,6 +32,8 @@ const Login = () => {
     signInGoogle()
       .then((res) => {
         console.log(res.user);
+        navigate(location?.state || "/");
+        toast.success("Logged In Successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -64,7 +73,7 @@ const Login = () => {
           </fieldset>
           <p className="text-sm ">
             New To zapShift?{" "}
-            <Link className="underline text-blue-500" to={"/register"}>
+            <Link className="underline text-blue-500" state={location?.state} to={"/register"}>
               Register
             </Link>{" "}
           </p>
