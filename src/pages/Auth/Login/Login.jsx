@@ -12,7 +12,7 @@ const Login = () => {
   } = useForm();
 
   const location = useLocation();
-  console.log(location)
+  console.log(location);
   const navigate = useNavigate();
 
   const { signInUser, signInGoogle } = useAuth();
@@ -46,7 +46,7 @@ const Login = () => {
         <p className="text-center font-medium">Please Login</p>
         <form onSubmit={handleSubmit(handleLogin)} class="card-body">
           <fieldset class="fieldset">
-            <label class="label">Email</label>
+            <label class="label text-black font-medium">Email</label>
             <input
               type="email"
               {...register("email", { required: true })}
@@ -56,7 +56,7 @@ const Login = () => {
             {errors.email?.type === "required" && (
               <p className="text-red-500">Email Is Required</p>
             )}
-            <label class="label">Password</label>
+            <label class="label text-black font-medium">Password</label>
             <input
               type="password"
               {...register("password", { required: true, minLength: 6 })}
@@ -73,7 +73,11 @@ const Login = () => {
           </fieldset>
           <p className="text-sm ">
             New To zapShift?{" "}
-            <Link className="underline text-blue-500" state={location?.state} to={"/register"}>
+            <Link
+              className="underline text-blue-500"
+              state={location?.state}
+              to={"/register"}
+            >
               Register
             </Link>{" "}
           </p>
