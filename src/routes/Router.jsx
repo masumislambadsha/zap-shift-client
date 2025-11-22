@@ -10,6 +10,7 @@ import BeARider from "../pages/BeARider/BeARider";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import SendAParcel from "../pages/SendAParcel/SendAParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
+import MyParcels from "../pages/Dashboard/MyParcels";
 
 export const router = createBrowserRouter([
   {
@@ -67,8 +68,8 @@ export const router = createBrowserRouter([
     element: <PrivateRoute><DashboardLayout/> </PrivateRoute>,
     children:[
       {
-        path:"/my-parcels",
-        
+        path:"my-parcels",
+        Component: MyParcels
       }
     ]
   }
