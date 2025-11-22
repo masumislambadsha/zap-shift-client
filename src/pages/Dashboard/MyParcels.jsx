@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: parcels = [] } = useQuery({
+  const { data: parcels = [] , refetch } = useQuery({
     queryKey: ["myParcels", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels?email=${user.email}`);
@@ -32,6 +32,7 @@ const MyParcels = () => {
         axiosSecure.delete(`/parcels/${id}`).then((res) => {
           console.log(res.data);
           if (res.data.deletedCount) {
+            refetch()
             Swal.fire({
               title: "Deleted!",
               text: "Your Parcel Request Has Been Deleted.",
