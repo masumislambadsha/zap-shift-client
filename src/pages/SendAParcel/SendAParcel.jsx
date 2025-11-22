@@ -60,6 +60,7 @@ const SendAParcel = () => {
       confirmButtonText: "Yes, Send Parcel!",
     }).then((result) => {
       if (result.isConfirmed) {
+        
         Swal.fire({
           title: "Parcel Sent To Dispatch",
           text: "Parcel will be delivered soon ",
