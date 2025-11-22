@@ -26,14 +26,18 @@ const MyParcels = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, Delete It!",
     }).then((result) => {
       if (result.isConfirmed) {
-        
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
+        axiosSecure.delete(`/parcels/${id}`).then((res) => {
+          console.log(res.data);
+          if (res.data.deletedCount) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Parcel Request Has Been Deleted.",
+              icon: "success",
+            });
+          }
         });
       }
     });
