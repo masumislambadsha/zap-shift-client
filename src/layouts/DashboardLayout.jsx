@@ -34,7 +34,7 @@ const DashboardLayout = () => {
             <div className="px-4 font-semibold text-lg">Navbar Title</div>
           </nav>
           {/* Page content here */}
-          <main className="flex-grow p-6 bg-white">
+          <main className="grow p-6 bg-white">
             <Outlet />
           </main>
         </div>
