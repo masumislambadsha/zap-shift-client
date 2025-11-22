@@ -152,7 +152,7 @@ const SendAParcel = () => {
                   className="input w-full outline-0 border-2 rounded-lg"
                   placeholder="Sender Email"
                   defaultValue={user?.email}
-                  readOnly
+                
                 />
                 <label className="label text-black font-medium">
                   Sender Phone No
