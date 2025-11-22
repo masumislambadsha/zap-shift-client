@@ -4,9 +4,9 @@ import { useLoaderData } from "react-router";
 
 const SendAParcel = () => {
   const serviceCenters = useLoaderData();
+
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
-  console.log(regions);
 
   const {
     register,
@@ -27,6 +27,29 @@ const SendAParcel = () => {
 
   const handleSendParcel = (data) => {
     console.log(data);
+
+    const isDocument = data.parcelType === "document"
+    const isSameDistrict = data.senderDistrict === data.reciverDistrict
+    const parcelWeight = parseFloat(data.parcelWeight)
+
+    let cost = 0;
+    if(isDocument){
+      cost = isSameDistrict ? 60 : 80;
+    }
+    else{
+      if(parcelWeight < 3 ){
+        cost = isSameDistrict ? 110 : 150
+      }
+      else{
+        const minCharge = isSameDistrict ? 110 : 150;
+        const extraWeight = parcelWeight - 3
+        const extraCharge = isSameDistrict ? extraWeight * 3 : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge
+      }
+    }
+    console.log({cost});
+
+
   };
   return (
     <div className="p-5">
@@ -136,7 +159,7 @@ const SendAParcel = () => {
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">Sender District</legend>
                   <select
-                    {...register("senderDistricts")}
+                    {...register("senderDistrict")}
                     defaultValue="Pick a District"
                     className="select w-full"
                   >
@@ -217,22 +240,13 @@ const SendAParcel = () => {
                       className="select w-full"
                     >
                       <option disabled={true}>Pick a District</option>
-                      {regions.map((r, i) => (
+                      {districtsByRegion(reciverRegion).map((r, i) => (
                         <option key={i} value={r}>
-                          {r}{" "}
+                          {r}
                         </option>
                       ))}
                     </select>
                   </fieldset>
-                  <label className="label text-black font-medium">
-                    Reciver District
-                  </label>
-                  <input
-                    type="text"
-                    {...register("reciverDistrict")}
-                    className="input w-full"
-                    placeholder="Select Reciver District"
-                  />
                   <label className="label text-black font-medium">
                     Pickup Instruction
                   </label>
