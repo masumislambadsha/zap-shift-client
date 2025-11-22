@@ -19,20 +19,31 @@ const Navbar = () => {
   };
   return (
     <div>
-      <div className="navbar bg-base-100 shadow-sm px-3">
-
+      <div className="navbar bg-base-100 shadow-sm px-4 border-b border-gray-300">
         {/* Left / Start */}
-        <div className="navbar-start">
-
+        <div className="navbar-start flex items-center gap-3">
           {/* Mobile Dropdown */}
           <div className="dropdown">
-            <button tabIndex={0} className="btn btn-ghost md:hidden">
-              <svg className="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+            <button tabIndex={0} className="btn btn-ghost md:hidden p-2">
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                fill="none"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
               </svg>
             </button>
             {/* Dropdown Panel for mobile */}
-            <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 p-2 shadow">
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 p-2 shadow"
+            >
               {navItems.map((item) => (
                 <li key={item.to}>
                   <NavLink
@@ -71,7 +82,10 @@ const Navbar = () => {
                     Log Out
                   </button>
                 ) : (
-                  <NavLink to="/login" className="btn btn-ghost w-full rounded-xl text-black">
+                  <NavLink
+                    to="/login"
+                    className="btn btn-ghost w-full rounded-xl text-black"
+                  >
                     Login
                   </NavLink>
                 )}
@@ -87,14 +101,14 @@ const Navbar = () => {
             </ul>
           </div>
           {/* Logo */}
-          <a href="/" className="btn btn-ghost text-xl">
+          <a href="/" className="btn btn-ghost text-xl p-0">
             <Logo />
           </a>
         </div>
 
         {/* Center menu: desktop/tablet only */}
         <div className="navbar-center hidden md:flex">
-          <ul className="menu menu-horizontal flex gap-2 items-center px-1">
+          <ul className="menu menu-horizontal flex gap-3 items-center px-1">
             {navItems.map((item) => (
               <li key={item.to}>
                 <NavLink
@@ -127,20 +141,26 @@ const Navbar = () => {
         </div>
 
         {/* Right / End: visible on md+ screens */}
-        <div className="navbar-end hidden md:flex gap-2">
+        <div className="navbar-end hidden md:flex gap-3 items-center">
           {user ? (
             <button
               onClick={handleSignOut}
-              className="btn btn-ghost text-black border border-gray-300 rounded-xl"
+              className="btn btn-ghost text-black border border-gray-300 rounded-xl px-4 py-2"
             >
               Log Out
             </button>
           ) : (
-            <NavLink to="/login" className="btn btn-ghost rounded-xl text-black">
+            <NavLink
+              to="/login"
+              className="btn btn-ghost rounded-xl text-black px-4 py-2"
+            >
               Login
             </NavLink>
           )}
-          <NavLink to="/rider" className="btn btn-primary rounded-xl mx-2 text-black">
+          <NavLink
+            to="/rider"
+            className="btn btn-primary rounded-xl mx-2 text-black px-4 py-2"
+          >
             Be A Rider
           </NavLink>
         </div>
