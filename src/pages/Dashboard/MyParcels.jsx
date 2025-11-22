@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: parcels = [] , refetch } = useQuery({
+  const { data: parcels = [], refetch } = useQuery({
     queryKey: ["myParcels", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels?email=${user.email}`);
@@ -32,7 +32,7 @@ const MyParcels = () => {
         axiosSecure.delete(`/parcels/${id}`).then((res) => {
           console.log(res.data);
           if (res.data.deletedCount) {
-            refetch()
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your Parcel Request Has Been Deleted.",
@@ -57,6 +57,7 @@ const MyParcels = () => {
               <th className="table-style">Name</th>
               <th className="table-style">Cost</th>
               <th className="table-style">Payment Status</th>
+              <th className="table-style">Delivery Status</th>
               <th className="table-style">Actions</th>
             </tr>
           </thead>
@@ -69,6 +70,11 @@ const MyParcels = () => {
                 <td className="table-style">{ind + 1}</td>
                 <td className="table-style">{parcel.parcelName}</td>
                 <td className="table-style">{parcel.cost}</td>
+                <td className="table-style">
+                  {
+                    parcel.paymentStatus ==="paid" ? <span className="text-green-500 font-semibold">Paid</span> : <span className="text-black btn btn-primary btn-sm font-semibold">Pay </span>
+                  }
+                  </td>
                 <td className="table-style">Blue</td>
                 <td className="table-style space-x-2">
                   <button className="btn btn-square hover:bg-primary">
