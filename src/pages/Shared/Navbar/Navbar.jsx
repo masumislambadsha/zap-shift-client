@@ -63,6 +63,18 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ))}
+               {
+                user &&
+               <li>
+                  <NavLink to={'/dashboard/my-parcels'}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-lime-200 rounded-full px-6 py-2 text-green-900 font-medium transition-colors"
+                        : "text-gray-700 hover:text-green-700 transition"
+                    }
+                  >My Parcels</NavLink>
+                </li>
+               }
               </ul>
             </ul>
           </div>
@@ -87,6 +99,18 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
+              {
+                user &&
+               <li>
+                  <NavLink to={'/dashboard/my-parcels'}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-lime-200 rounded-full px-6 py-2 text-green-900 font-medium transition-colors"
+                        : "text-gray-700 hover:text-green-700 transition"
+                    }
+                  >My Parcels</NavLink>
+                </li>
+              }
             </ul>
           </ul>
         </div>

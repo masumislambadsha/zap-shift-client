@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayout = () => {
   return (
@@ -33,7 +33,7 @@ const DashboardLayout = () => {
             <div className="px-4">Navbar Title</div>
           </nav>
           {/* Page content here */}
-          <Outlet/>
+          <Outlet />
         </div>
 
         <div className="drawer-side is-drawer-close:overflow-visible">
@@ -47,7 +47,8 @@ const DashboardLayout = () => {
             <ul className="menu w-full grow">
               {/* List item */}
               <li>
-                <button
+                <Link
+                  to={"/"}
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
@@ -66,7 +67,12 @@ const DashboardLayout = () => {
                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   </svg>
                   <span className="is-drawer-close:hidden">Homepage</span>
-                </button>
+                </Link>
+              </li>
+              <li>
+                <NavLink to={'my-parcels'}>
+                  My Parcels
+                </NavLink>
               </li>
 
               {/* List item */}
