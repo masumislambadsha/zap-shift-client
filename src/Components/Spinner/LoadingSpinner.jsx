@@ -11,7 +11,7 @@ const LoadingSpinner = () => {
         color="##caeb66"
         ariaLabel="ball-triangle-loading"
         wrapperStyle={{}}
-        wrapperClass=""
+        wrapperclassName=""
         visible={true}
       />
     </div>

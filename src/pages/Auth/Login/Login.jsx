@@ -41,35 +41,35 @@ const Login = () => {
   };
   return (
     <div>
-      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
+      <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
         <h3 className="text-3xl text-center font-medium">Welcome Back </h3>
         <p className="text-center font-medium">Please Login</p>
-        <form onSubmit={handleSubmit(handleLogin)} class="card-body">
-          <fieldset class="fieldset">
-            <label class="label text-black font-medium">Email</label>
+        <form onSubmit={handleSubmit(handleLogin)} className="card-body">
+          <fieldset className="fieldset">
+            <label className="label text-black font-medium">Email</label>
             <input
               type="email"
               {...register("email", { required: true })}
-              class="input"
+              className="input"
               placeholder="Email"
             />
             {errors.email?.type === "required" && (
               <p className="text-red-500">Email Is Required</p>
             )}
-            <label class="label text-black font-medium">Password</label>
+            <label className="label text-black font-medium">Password</label>
             <input
               type="password"
               {...register("password", { required: true, minLength: 6 })}
-              class="input"
+              className="input"
               placeholder="Password"
             />
             {errors.password?.type === "minLength" && (
               <p className="text-red-500">Password Must Be At Least 6 Digit</p>
             )}
             <div>
-              <a class="link link-hover">Forgot password?</a>
+              <a className="link link-hover">Forgot password?</a>
             </div>
-            <button class="btn btn-neutral mt-4">Login</button>
+            <button className="btn btn-neutral mt-4">Login</button>
           </fieldset>
           <p className="text-sm ">
             New To zapShift?{" "}
@@ -85,7 +85,7 @@ const Login = () => {
         <p className="text-center -mt-[15px] mb-2">OR</p>
         <button
           onClick={handleGoogleSignIn}
-          class="btn bg-white text-black border-[#e5e5e5] mb-6"
+          className="btn bg-white text-black border-[#e5e5e5] mb-6"
         >
           <svg
             aria-label="Google logo"

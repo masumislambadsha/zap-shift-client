@@ -12,7 +12,7 @@ const Register = () => {
   } = useForm();
   const location = useLocation();
   console.log(location);
-  
+
   const navigate = useNavigate();
 
   const { registerUser, signInGoogle, updateUserProfile } = useAuth();
@@ -55,7 +55,7 @@ const Register = () => {
       });
   };
   return (
-    <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
+    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
       <h3 className="text-3xl text-center font-medium">Welcome To Zap Shift</h3>
       <p className="text-center font-medium">Please Register</p>
       <form onSubmit={handleSubmit(handleRegistration)} className="card-body">
@@ -115,7 +115,11 @@ const Register = () => {
 
         <p className="text-sm ">
           Already have an account{" "}
-          <Link className="underline text-blue-500" state={location.state} to={"/login"}>
+          <Link
+            className="underline text-blue-500"
+            state={location.state}
+            to={"/login"}
+          >
             Login
           </Link>{" "}
         </p>
@@ -123,7 +127,7 @@ const Register = () => {
       <p className="text-center -mt-[15px] mb-2">OR</p>
       <button
         onClick={handleGoogleSignIn}
-        class="btn bg-white text-black border-[#e5e5e5] mb-6"
+        className="btn bg-white text-black border-[#e5e5e5] mb-6"
       >
         <svg
           aria-label="Google logo"

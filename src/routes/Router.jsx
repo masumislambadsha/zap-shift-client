@@ -34,10 +34,11 @@ export const router = createBrowserRouter([
             <SendAParcel />
           </PrivateRoute>
         ),
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json())
       },
       {
-        path:"/aboutus",
-        Component: AboutUs
+        path: "/aboutus",
+        Component: AboutUs,
       },
       {
         path: "/coverage",
