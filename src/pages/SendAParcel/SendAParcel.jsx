@@ -2,6 +2,8 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
 
 const SendAParcel = () => {
   const serviceCenters = useLoaderData();
@@ -9,13 +11,10 @@ const SendAParcel = () => {
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
+  const { register, control, handleSubmit } = useForm();
+  const { user } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
 
   const senderRegion = useWatch({ control, name: "senderRegion" });
   const reciverRegion = useWatch({ control, name: "reciverRegion" });
@@ -60,7 +59,10 @@ const SendAParcel = () => {
       confirmButtonText: "Yes, Send Parcel!",
     }).then((result) => {
       if (result.isConfirmed) {
-        
+        axiosSecure.post("/parcels", data).then((res) => {
+          console.log("after saving parcel", res.data);
+        });
+
         Swal.fire({
           title: "Parcel Sent To Dispatch",
           text: "Parcel will be delivered soon ",
@@ -105,7 +107,7 @@ const SendAParcel = () => {
               <input
                 type="text"
                 {...register("parcelName")}
-                className="input w-full"
+                className="input w-full outline-0 border-2 rounded-lg"
                 placeholder="Parcel Name"
               />
             </div>
@@ -116,7 +118,7 @@ const SendAParcel = () => {
               <input
                 type="text"
                 {...register("parcelWeight")}
-                className="input w-full"
+                className="input w-full outline-0 border-2 rounded-lg"
                 placeholder="Parcel Weight"
               />
             </div>
@@ -136,17 +138,21 @@ const SendAParcel = () => {
                 <input
                   type="text"
                   {...register("senderName")}
-                  className="input w-full"
+                  className="input w-full outline-0 border-2 rounded-lg"
+                  defaultValue={user?.displayName}
+                  readOnly
                   placeholder="Sender Name"
                 />
                 <label className="label text-black font-medium">
-                  Sender Address
+                  Sender Email
                 </label>
                 <input
                   type="text"
-                  {...register("senderAddress")}
-                  className="input w-full"
-                  placeholder="Sender Name"
+                  {...register("senderEmail")}
+                  className="input w-full outline-0 border-2 rounded-lg"
+                  placeholder="Sender Email"
+                  defaultValue={user?.email}
+                  readOnly
                 />
                 <label className="label text-black font-medium">
                   Sender Phone No
@@ -154,7 +160,7 @@ const SendAParcel = () => {
                 <input
                   type="text"
                   {...register("senderPhoneNo")}
-                  className="input w-full"
+                  className="input w-full outline-0 border-2 rounded-lg"
                   placeholder="Sender Phone No"
                 />
 
@@ -195,7 +201,7 @@ const SendAParcel = () => {
                 <textarea
                   type="text"
                   {...register("pickupInstruction")}
-                  className="input w-full py-3 h-20"
+                  className="input w-full outline-0 border-2 rounded-lg py-3 h-20"
                   placeholder="Pickup Instruction"
                 />
               </div>
@@ -212,17 +218,17 @@ const SendAParcel = () => {
                   <input
                     type="text"
                     {...register("reciverName")}
-                    className="input w-full"
+                    className="input w-full outline-0 border-2 rounded-lg"
                     placeholder="Reciver Name"
                   />
                   <label className="label text-black font-medium">
-                    Reciver Address
+                    Reciver Email
                   </label>
                   <input
                     type="text"
-                    {...register("reciverAddress")}
-                    className="input w-full"
-                    placeholder="Reciver Name"
+                    {...register("reciverEmail")}
+                    className="input w-full outline-0 border-2 rounded-lg"
+                    placeholder="Reciver Email"
                   />
                   <label className="label text-black font-medium">
                     Reciver Phone No
@@ -230,7 +236,7 @@ const SendAParcel = () => {
                   <input
                     type="text"
                     {...register("reciverPhoneNo")}
-                    className="input w-full"
+                    className="input w-full outline-0 border-2 rounded-lg"
                     placeholder="Reciver Phone No"
                   />
                   <fieldset className="fieldset">
@@ -271,7 +277,7 @@ const SendAParcel = () => {
                   <textarea
                     type="text"
                     {...register("reciveInstruction")}
-                    className="input w-full py-3 h-20"
+                    className="input w-full outline-0 border-2 rounded-lg py-3 h-20"
                     placeholder="Pickup Instruction"
                   />
                 </div>
