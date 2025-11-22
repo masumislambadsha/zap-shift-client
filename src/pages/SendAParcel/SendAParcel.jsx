@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const SendAParcel = () => {
   const serviceCenters = useLoaderData();
@@ -28,28 +29,44 @@ const SendAParcel = () => {
   const handleSendParcel = (data) => {
     console.log(data);
 
-    const isDocument = data.parcelType === "document"
-    const isSameDistrict = data.senderDistrict === data.reciverDistrict
-    const parcelWeight = parseFloat(data.parcelWeight)
+    const isDocument = data.parcelType === "document";
+    const isSameDistrict = data.senderDistrict === data.reciverDistrict;
+    const parcelWeight = parseFloat(data.parcelWeight);
 
     let cost = 0;
-    if(isDocument){
+    if (isDocument) {
       cost = isSameDistrict ? 60 : 80;
-    }
-    else{
-      if(parcelWeight < 3 ){
-        cost = isSameDistrict ? 110 : 150
-      }
-      else{
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameDistrict ? 110 : 150;
+      } else {
         const minCharge = isSameDistrict ? 110 : 150;
-        const extraWeight = parcelWeight - 3
-        const extraCharge = isSameDistrict ? extraWeight * 3 : extraWeight * 40 + 40;
-        cost = minCharge + extraCharge
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
       }
     }
-    console.log({cost});
+    console.log({ cost });
 
-
+    Swal.fire({
+      title: `The COST will be ${cost} BDT`,
+      text: "Are you sure to deliver the parcel",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Send Parcel!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Parcel Sent To Dispatch",
+          text: "Parcel will be delivered soon ",
+          icon: "success",
+        });
+      }
+    });
   };
   return (
     <div className="p-5">
