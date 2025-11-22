@@ -6,6 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { FaEye, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
@@ -71,10 +72,16 @@ const MyParcels = () => {
                 <td className="table-style">{parcel.parcelName}</td>
                 <td className="table-style">{parcel.cost}</td>
                 <td className="table-style">
-                  {
-                    parcel.paymentStatus ==="paid" ? <span className="text-green-500 font-semibold">Paid</span> : <span className="text-black btn btn-primary btn-sm font-semibold">Pay </span>
-                  }
-                  </td>
+                  {parcel.paymentStatus === "paid" ? (
+                    <span className="text-green-500 font-semibold">Paid</span>
+                  ) : (
+                    <Link to={`/dashboard/payment/${parcel._id}`}>
+                      <span className="text-black btn btn-primary btn-sm font-semibold">
+                        Pay{" "}
+                      </span>
+                    </Link>
+                  )}
+                </td>
                 <td className="table-style">Blue</td>
                 <td className="table-style space-x-2">
                   <button className="btn btn-square hover:bg-primary">
