@@ -8,3 +8,8 @@
   --color-primary: #CAEB66 ;
   --color-secondary: #03373D;
 }
+
+.table-style{
+  @apply text-center border border-gray-300 px-4 py-2;
+}
+
