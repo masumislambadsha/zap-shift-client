@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import BeARider from "../pages/BeARider/BeARider";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import SendAParcel from "../pages/SendAParcel/SendAParcel";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -61,4 +62,11 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:"/dashboard",
+    element: <PrivateRoute><DashboardLayout/> </PrivateRoute>,
+    children:[
+      
+    ]
+  }
 ]);
