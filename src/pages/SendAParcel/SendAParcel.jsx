@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
@@ -13,6 +13,8 @@ const SendAParcel = () => {
 
   const { register, control, handleSubmit } = useForm();
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   const axiosSecure = useAxiosSecure();
 
@@ -63,11 +65,12 @@ const SendAParcel = () => {
         axiosSecure.post("/parcels", data).then((res) => {
           console.log("after saving parcel", res.data);
         });
-
+        navigate("/dashboard/my-parcels");
         Swal.fire({
           title: "Parcel Sent To Dispatch",
-          text: "Parcel will be delivered soon ",
+          text: "Parcel Will Be Delivered After Payment",
           icon: "success",
+          timer:1500
         });
       }
     });
@@ -197,7 +200,7 @@ const SendAParcel = () => {
                   </select>
                 </fieldset>
                 <label className="label text-black font-medium">
-                  Pickup Instruction
+                  Sender Address
                 </label>
                 <textarea
                   type="text"
@@ -273,7 +276,7 @@ const SendAParcel = () => {
                     </select>
                   </fieldset>
                   <label className="label text-black font-medium">
-                    Pickup Instruction
+                    Reciver Instruction
                   </label>
                   <textarea
                     type="text"
