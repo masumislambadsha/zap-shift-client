@@ -25,7 +25,7 @@ const Reviews = ({ reviewsPromise }) => {
       <Swiper
         effect={"coverflow"}
         loop={true}
-        grabCursor={true}
+        grabCursor={"true"}
         centeredSlides={true}
         slidesPerView={1}
         breakpoints={{

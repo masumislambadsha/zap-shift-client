@@ -67,7 +67,7 @@ const SendAParcel = () => {
         });
         navigate("/dashboard/my-parcels");
         Swal.fire({
-          title: "Parcel Sent To Dispatch",
+        title: "Parcel Sent To Dispatch",
           text: "Parcel Will Be Delivered After Payment",
           icon: "success",
           timer:1500

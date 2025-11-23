@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { CiDeliveryTruck } from "react-icons/ci";
+import Navbar from "../pages/Shared/Navbar/Navbar";
 
 const DashboardLayout = () => {
   return (
     <div>
+      <Navbar/>
       <div className="drawer lg:drawer-open max-w-7xl mx-auto border border-gray-300 rounded-md shadow-sm">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col min-h-screen">

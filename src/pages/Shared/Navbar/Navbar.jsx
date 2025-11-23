@@ -115,7 +115,7 @@ const Navbar = () => {
                   to={item.to}
                   className={({ isActive }) =>
                     isActive
-                      ? "bg-lime-200 rounded-full px-6 py-2 text-green-900 font-medium transition-colors"
+                      ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
                       : "text-gray-700 hover:text-green-700 transition"
                   }
                 >
@@ -129,7 +129,7 @@ const Navbar = () => {
                   to="/dashboard/my-parcels"
                   className={({ isActive }) =>
                     isActive
-                      ? "bg-lime-200 rounded-full px-6 py-2 text-green-900 font-medium transition-colors"
+                      ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
                       : "text-gray-700 hover:text-green-700 transition"
                   }
                 >
@@ -139,8 +139,6 @@ const Navbar = () => {
             )}
           </ul>
         </div>
-
-        {/* Right / End: visible on md+ screens */}
         <div className="navbar-end hidden md:flex gap-3 items-center">
           {user ? (
             <button
