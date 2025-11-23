@@ -31,7 +31,6 @@ const MyParcels = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/parcels/${id}`).then((res) => {
-          console.log(res.data);
           if (res.data.deletedCount) {
             refetch();
             Swal.fire({
@@ -52,8 +51,7 @@ const MyParcels = () => {
       parcelName: parcel.parcelName,
     }
     const res = await axiosSecure.post('/payment-checkout-session', paymentInfo);
-    console.log(res.data.url);
-    window.location.href = res.data.url; 
+    window.location.assign(res.data.url)
   }
 
   return (
