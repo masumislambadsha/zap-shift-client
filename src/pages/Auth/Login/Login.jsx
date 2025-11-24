@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Login = () => {
   const {
@@ -10,6 +11,8 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const axiosSecure = useAxiosSecure();
 
   const location = useLocation();
   console.log(location);
@@ -32,8 +35,18 @@ const Login = () => {
     signInGoogle()
       .then((res) => {
         console.log(res.user);
-        navigate(location?.state || "/");
-        toast.success("Logged In Successfully");
+        const userInfo = {
+          email: res.user.email,
+          displayName: res.user.displayName,
+          photoURL: res.user.photoURL,
+        };
+        axiosSecure.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            console.log("User data has been stored in DB", res.data);
+            navigate(location?.state || "/");
+            toast.success("Logged in With Google Successfully");
+          }
+        });
       })
       .catch((err) => {
         console.log(err);
