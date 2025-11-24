@@ -22,10 +22,10 @@ const PaymentHistory = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="table-style">#</th>
-              <th className="table-style">Parcel Name</th>
+              <th className="table-style"></th>
               <th className="table-style">Amount</th>
               <th className="table-style">Transaction ID</th>
-              <th className="table-style">Payment Status</th>
+              <th className="table-style">Tracking ID</th>
               <th className="table-style">Date</th>
             </tr>
           </thead>
@@ -39,13 +39,7 @@ const PaymentHistory = () => {
                 <td className="table-style">{payment.parcelName}</td>
                 <td className="table-style">${payment.amount}</td>
                 <td className="table-style">{payment.transactionId}</td>
-                <td className="table-style">
-                  {payment.paymentStatus === "paid" ? (
-                    <span className="text-green-500 font-semibold">Paid</span>
-                  ) : (
-                    <span className="text-red-500 font-semibold">Unpaid</span>
-                  )}
-                </td>
+                <td className="table-style">{payment.trackingId}</td>
                 <td className="table-style">
                   {payment.paidAt
                     ? new Date(payment.paidAt).toLocaleDateString()
