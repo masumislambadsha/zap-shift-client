@@ -32,6 +32,7 @@ export const router = createBrowserRouter([
             <BeARider />
           </PrivateRoute>
         ),
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json())
       },
       {
         path: "/sendAParcel",

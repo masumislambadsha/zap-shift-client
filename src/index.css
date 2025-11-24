@@ -12,4 +12,10 @@
 .table-style{
   @apply text-center border border-gray-300 px-4 py-2;
 }
+.color{
+  @apply text-[#03373D]
+}
+.input-custom{
+  @apply bg-[#F8FAFC] border border-gray-200 rounded-lg px-4 py-2 w-full outline-none focus:border-primary focus:ring-1 focus:ring-primary
+}
 
