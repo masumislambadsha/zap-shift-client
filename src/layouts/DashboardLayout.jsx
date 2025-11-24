@@ -1,17 +1,23 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { CiDeliveryTruck } from "react-icons/ci";
-import Navbar from "../pages/Shared/Navbar/Navbar";
+import useAuth from "../Hooks/useAuth";
 
 const DashboardLayout = () => {
+   const { user } = useAuth();
+  const navItems = [
+    { to: "/", label: "Services" },
+    { to: "/coverage", label: "Coverage" },
+    { to: "/aboutus", label: "About Us" },
+    { to: "/sendAParcel", label: "Send A Parcel" },
+  ];
   return (
     <div>
-      <Navbar/>
       <div className="drawer lg:drawer-open max-w-7xl mx-auto border border-gray-300 rounded-md shadow-sm">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col min-h-screen">
           {/* Navbar */}
-          <nav className="navbar w-full bg-base-300 border-b border-gray-300 px-4">
+          <nav className="navbar flex justify-between w-full bg-base-300 border-b border-gray-300 px-4">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -33,7 +39,41 @@ const DashboardLayout = () => {
                 <path d="M14 10l2 2l-2 2"></path>
               </svg>
             </label>
-            <div className="px-4 font-semibold text-lg">Navbar Title</div>
+            <div className="navbar-center hidden md:flex">
+          <ul className="menu menu-horizontal flex gap-3 items-center px-1">
+            {navItems.map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
+                      : "text-gray-700 hover:text-green-700 transition"
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+            {user && (
+              <li>
+                <NavLink
+                  to="/dashboard/my-parcels"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
+                      : "text-gray-700 hover:text-green-700 transition"
+                  }
+                >
+                  My Parcels
+                </NavLink>
+              </li>
+            )}
+          </ul>
+        </div>
+        <div>
+
+        </div>
           </nav>
           {/* Page content here */}
           <main className="grow p-6 bg-white">
