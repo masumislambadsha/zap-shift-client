@@ -2,9 +2,10 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { CiDeliveryTruck } from "react-icons/ci";
 import useAuth from "../Hooks/useAuth";
+import { FaRegCreditCard } from "react-icons/fa";
 
 const DashboardLayout = () => {
-   const { user } = useAuth();
+  const { user } = useAuth();
   const navItems = [
     { to: "/", label: "Services" },
     { to: "/coverage", label: "Coverage" },
@@ -40,40 +41,38 @@ const DashboardLayout = () => {
               </svg>
             </label>
             <div className="navbar-center hidden md:flex">
-          <ul className="menu menu-horizontal flex gap-3 items-center px-1">
-            {navItems.map((item) => (
-              <li key={item.to}>
-                <NavLink
-                  to={item.to}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
-                      : "text-gray-700 hover:text-green-700 transition"
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              </li>
-            ))}
-            {user && (
-              <li>
-                <NavLink
-                  to="/dashboard/my-parcels"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
-                      : "text-gray-700 hover:text-green-700 transition"
-                  }
-                >
-                  My Parcels
-                </NavLink>
-              </li>
-            )}
-          </ul>
-        </div>
-        <div>
-
-        </div>
+              <ul className="menu menu-horizontal flex gap-3 items-center px-1">
+                {navItems.map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
+                          : "text-gray-700 hover:text-green-700 transition"
+                      }
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+                {user && (
+                  <li>
+                    <NavLink
+                      to="/dashboard/my-parcels"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-lime-200 rounded-lg px-6 py-2 text-green-900 font-medium transition-colors"
+                          : "text-gray-700 hover:text-green-700 transition"
+                      }
+                    >
+                      My Parcels
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+            </div>
+            <div></div>
           </nav>
           {/* Page content here */}
           <main className="grow p-6 bg-white">
@@ -119,8 +118,25 @@ const DashboardLayout = () => {
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
                   data-tip="Settings"
                 >
-                  <CiDeliveryTruck className="font-bold" size={23} color="black" />
+                  <CiDeliveryTruck
+                    className="font-bold"
+                    size={23}
+                    color="black"
+                  />
                   <span className="is-drawer-close:hidden">My Parcels</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"payment-history"}
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                  data-tip="Settings"
+                >
+                  <FaRegCreditCard size={20}/>
+
+                  <span className="is-drawer-close:hidden">
+                    Payment History
+                  </span>
                 </NavLink>
               </li>
 
