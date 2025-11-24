@@ -35,6 +35,8 @@ const Login = () => {
     signInGoogle()
       .then((res) => {
         console.log(res.user);
+        navigate(location?.state || "/");
+        toast.success("Logged in With Google Successfully");
         const userInfo = {
           email: res.user.email,
           displayName: res.user.displayName,

@@ -79,19 +79,29 @@ const Register = () => {
   const handleGoogleSignIn = () => {
     signInGoogle()
       .then((res) => {
-        console.log(res.user);
         const userInfo = {
           email: res.user.email,
           displayName: res.user.displayName,
           photoURL: res.user.photoURL,
         };
-        axiosSecure.post("/users", userInfo).then((res) => {
-          if (res.data.insertedId) {
-            console.log("User data has been stored in DB", res.data);
-            navigate(location?.state || "/");
-            toast.success("Registered With Google Successfully");
-          }
-        });
+        axiosSecure
+          .post("/users", userInfo)
+          .then((dbRes) => {
+            if (
+              dbRes.data.insertedId ||
+              dbRes.data.message === "User already exists"
+            ) {
+              console.log("User stored/exists in DB", dbRes.data);
+              navigate(location?.state || "/");
+              toast.success("Registered With Google Successfully");
+            } else {
+              toast.error("Failed saving user to DB");
+            }
+          })
+          .catch((err) => {
+            toast.error("User registration failed!");
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
