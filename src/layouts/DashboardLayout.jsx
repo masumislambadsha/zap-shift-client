@@ -3,6 +3,8 @@ import { Link, NavLink, Outlet } from "react-router";
 import { CiDeliveryTruck } from "react-icons/ci";
 import useAuth from "../Hooks/useAuth";
 import { FaRegCreditCard } from "react-icons/fa";
+import RiderCard from "../assets/ApproveRiderButton";
+import { FaMotorcycle } from "react-icons/fa";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -116,12 +118,12 @@ const DashboardLayout = () => {
                 <NavLink
                   to={"my-parcels"}
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
-                  data-tip="Settings"
+                  data-tip="My Parcels"
                 >
                   <CiDeliveryTruck
                     className="font-bold"
-                    size={23}
-                    color="black"
+                    size={25}
+                    color="teal"
                   />
                   <span className="is-drawer-close:hidden">My Parcels</span>
                 </NavLink>
@@ -132,7 +134,7 @@ const DashboardLayout = () => {
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
                   data-tip="Settings"
                 >
-                  <FaRegCreditCard size={20}/>
+                  <FaRegCreditCard size={20} color="#3B82F6" />
 
                   <span className="is-drawer-close:hidden">
                     Payment History
@@ -140,6 +142,17 @@ const DashboardLayout = () => {
                 </NavLink>
               </li>
 
+              <li>
+                <NavLink
+                  to={"approve-riders"}
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                  data-tip="Approve Riders"
+                >
+                  <FaMotorcycle color="red" size={22} />
+
+                  <span className="is-drawer-close:hidden">Approve Riders</span>
+                </NavLink>
+              </li>
               <li>
                 <button
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded w-full text-left"
