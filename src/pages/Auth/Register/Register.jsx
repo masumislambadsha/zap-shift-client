@@ -204,7 +204,7 @@ const Register = () => {
             <button
               onClick={handleGoogleSignIn}
               disabled={loading}
-              className="group relative w-full flex items-center justify-center gap-4 px-8 py-5
+              className="group relative w-full flex items-center justify-center gap-4 px-8 py-5 cursor-pointer
                          bg-white border-2 border-gray-300 rounded-2xl
                          text-gray-800 font-bold text-lg
                          shadow-lg hover:shadow-2xl
