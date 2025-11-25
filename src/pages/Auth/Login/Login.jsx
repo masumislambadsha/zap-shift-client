@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -26,9 +27,11 @@ const Login = () => {
         navigate(from, { replace: true });
       })
       .catch((err) => {
-        toast.error(err.message.includes("wrong-password")
-          ? "Incorrect password"
-          : "Invalid email or password");
+        toast.error(
+          err.message.includes("wrong-password")
+            ? "Incorrect password"
+            : "Invalid email or password"
+        );
       });
   };
 
@@ -43,15 +46,14 @@ const Login = () => {
         };
 
         // Save user to DB (only if new)
-        axiosSecure.post("/users", userInfo)
-          .then((res) => {
-            if (res.data.insertedId) {
-              toast.success("Account created & logged in!");
-            } else {
-              toast.success("Welcome back!");
-            }
-            navigate(from, { replace: true });
-          });
+        axiosSecure.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            toast.success("Account created & logged in!");
+          } else {
+            toast.success("Welcome back!");
+          }
+          navigate(from || "/", { replace: true });
+        });
       })
       .catch((err) => {
         toast.error("Google login failed. Try again.", err);
@@ -66,7 +68,9 @@ const Login = () => {
           {/* Gradient Header */}
           <div className="bg-linear-to-r from-[#b0e413] to-primary/80 text-secondary p-8 text-center">
             <h1 className="text-4xl font-bold">Welcome Back!</h1>
-            <p className="mt-2 text-secondary/90">Login to continue delivering with ZapShift</p>
+            <p className="mt-2 text-secondary/90">
+              Login to continue delivering with ZapShift
+            </p>
           </div>
 
           <div className="p-8">
@@ -83,7 +87,9 @@ const Login = () => {
                   placeholder="you@example.com"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
@@ -96,19 +102,27 @@ const Login = () => {
                   type="password"
                   {...register("password", {
                     required: "Password is required",
-                    minLength: { value: 6, message: "Password must be at least 6 characters" }
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
                   })}
                   className="input input-bordered w-full h-12 rounded-xl focus:ring-4 focus:ring-red-200 focus:border-red-500 transition"
                   placeholder="••••••••"
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
               {/* Forgot Password */}
               <div className="text-right">
-                <Link to="/forgot-password" className="text-sm text-red-600 hover:underline font-medium">
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-red-600 hover:underline font-medium"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -125,17 +139,30 @@ const Login = () => {
             {/* Divider */}
             <div className="flex items-center my-8">
               <div className="flex-1 border-t border-gray-300"></div>
-              <span className="px-4 text-gray-500 font-medium bg-white">OR</span>
+              <span className="px-4 text-gray-500 font-medium bg-white">
+                OR
+              </span>
               <div className="flex-1 border-t border-gray-300"></div>
             </div>
 
             {/* Google Login */}
             <button
               onClick={handleGoogleSignIn}
-              className="w-full btn btn-outline hover:bg-red-50 hover:border-red-400 flex items-center justify-center gap-3 text-lg font-medium transition-all"
+              disabled={loading}
+              className="group relative w-full flex items-center justify-center gap-4 px-8 py-5
+                                    bg-white border-2 border-gray-300 rounded-2xl
+                                    text-gray-800 font-bold text-lg
+                                    shadow-lg hover:shadow-2xl
+                                    transition-all duration-300
+                                    hover:border-[#b0e413] hover:bg-linear-to-r hover:from-[#b0e413]/5 hover:to-primary/5
+                                    active:scale-98"
             >
-              <FcGoogle size={26} />
-              Continue with Google
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-20 transition-opacity"></div>
+
+              <FcGoogle size={30} className="drop-shadow-md" />
+              <span className="relative">Continue with Google</span>
+
+              <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-30 blur-xl transition-opacity"></div>
             </button>
 
             {/* Register Link */}
