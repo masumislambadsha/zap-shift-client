@@ -16,8 +16,6 @@ const ApproveRider = () => {
     },
   });
   const handleApproval = (id) => {
-    console.log("btn cliced");
-
     const updateInfo = { status: "approved" };
     axiosSecure
       .patch(`/riders/${id}`, updateInfo)

@@ -4,7 +4,6 @@ import { useForm, useWatch } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useLoaderData } from "react-router";
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 const BeARider = () => {
@@ -188,7 +187,7 @@ const BeARider = () => {
 
             <button
               type="submit"
-              className="bg-primary text-[#133742] mt-4 rounded-lg px-4 py-2 font-semibold transition-all active:bg-lime-400 hover:bg-[#c8ff00]"
+              className="bg-primary text-[#133742] mt-4 rounded-lg px-4 py-2 font-semibold transition-all active:bg-lime-400 hover:bg-[#c8ff00] cursor-pointer"
             >
               Apply As A Rider
             </button>
