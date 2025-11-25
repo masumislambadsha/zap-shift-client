@@ -87,11 +87,11 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-rose-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-red-50 via-white to-rose-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
         <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
           {/* Gradient Header */}
-          <div className="bg-gradient-to-r from-[#b0e413] to-primary/80 text-secondary p-10 text-center">
+          <div className="bg-linear-to-r from-[#b0e413] to-primary/80 text-secondary p-10 text-center">
             <div className="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
               <svg className="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H9a4 4 0 01-4-4v-1a4 4 0 014-4h6a4 4 0 014 4v1a4 4 0 01-4 4z" />
@@ -180,7 +180,7 @@ const Register = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full btn btn-lg bg-gradient-to-r from-[#b0e413] to-primary/80 hover:from-[#a0d010] hover:to-primary text-secondary font-bold text-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 border-0 disabled:opacity-70"
+                className="w-full btn btn-lg bg-linear-to-r from-[#b0e413] to-primary/80 hover:from-[#a0d010] hover:to-primary text-secondary font-bold text-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 border-0 disabled:opacity-70"
               >
                 {loading ? (
                   <>
@@ -209,15 +209,15 @@ const Register = () => {
                          text-gray-800 font-bold text-lg
                          shadow-lg hover:shadow-2xl
                          transition-all duration-300
-                         hover:border-[#b0e413] hover:bg-gradient-to-r hover:from-[#b0e413]/5 hover:to-primary/5
+                         hover:border-[#b0e413] hover:bg-linear-to-r hover:from-[#b0e413]/5 hover:to-primary/5
                          active:scale-98"
             >
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-20 transition-opacity"></div>
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-20 transition-opacity"></div>
 
               <FcGoogle size={30} className="drop-shadow-md" />
               <span className="relative">Continue with Google</span>
 
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-30 blur-xl transition-opacity"></div>
+              <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-30 blur-xl transition-opacity"></div>
             </button>
 
             {/* Login Link */}
