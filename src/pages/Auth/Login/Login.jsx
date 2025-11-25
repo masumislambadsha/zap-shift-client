@@ -7,7 +7,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, ] = useState(false);
   const {
     register,
     handleSubmit,
