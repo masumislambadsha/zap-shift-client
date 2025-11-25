@@ -20,13 +20,11 @@ const ApproveRider = () => {
     },
   });
 
-  const updateRiderStatus = (id, status) => {
-    const updateInfo = { status: status };
+  const updateRiderStatus = (rider, status) => {
+    const updateInfo = { status: status, email: rider.email };
     axiosSecure
-      .patch(`/riders/${id}`, updateInfo)
+      .patch(`/riders/${rider._id}`, updateInfo)
       .then((res) => {
-        console.log("cliked 2");
-
         if (res.data.modifiedCount) {
           refetch();
           Swal.fire({
@@ -41,13 +39,15 @@ const ApproveRider = () => {
         console.log(err);
       });
   };
-  const handleApproval = (id) => {
-    updateRiderStatus(id, "approved");
+
+  const handleApproval = (rider) => {
+    updateRiderStatus(rider, "approved");
   };
 
-  const handleReject = (id) => {
-    updateRiderStatus(id, "rejected");
+  const handleReject = (rider) => {
+    updateRiderStatus(rider, "rejected");
   };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -55,6 +55,7 @@ const ApproveRider = () => {
       </div>
     );
   }
+
   const StatusBadge = ({ status }) => {
     const styles = {
       pending: "bg-yellow-100 text-yellow-800 border-yellow-300",
@@ -66,7 +67,7 @@ const ApproveRider = () => {
 
     return (
       <span
-        className={`px-3 py-1 rounded-full text-xs font-semibold border ${
+        className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border ${
           styles[status] || styles.pending
         }`}
       >
@@ -76,14 +77,14 @@ const ApproveRider = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-800">
             Riders Pending Approval
           </h1>
-          <p className="text-2xl font-medium text-primary mt-3">
+          <p className="text-lg sm:text-2xl font-medium text-primary mt-3">
             {riders.length} rider{riders.length !== 1 && "s"} waiting for
             approval
           </p>
@@ -91,7 +92,7 @@ const ApproveRider = () => {
 
         {riders.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-16 text-center">
-            <div className="text-6xl mb-4">Checkmark</div>
+            <div className="text-6xl mb-4">✔️</div>
             <p className="text-xl text-gray-600">
               No pending riders at the moment.
             </p>
@@ -115,22 +116,24 @@ const ApproveRider = () => {
                 </div>
 
                 <div className="p-6">
-                  <div className="grid md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     {/* Rider Info */}
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-2xl font-bold text-primary">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold text-primary">
                           {rider.name?.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <h4 className="text-xl font-semibold text-gray-800">
+                          <h4 className="text-lg sm:text-xl font-semibold text-gray-800">
                             {rider.name}
                           </h4>
-                          <p className="text-gray-600">{rider.email}</p>
+                          <p className="text-gray-600 text-sm sm:text-base">
+                            {rider.email}
+                          </p>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
                         <div>
                           <span className="text-gray-500">Phone</span>
                           <p className="font-medium">{rider.phone || "N/A"}</p>
@@ -141,11 +144,9 @@ const ApproveRider = () => {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
                         <div className="pt-3 border-t border-gray-200">
-                          <p className="text-sm text-gray-500 mb-1">
-                            Applied on
-                          </p>
+                          <p className="text-gray-500 mb-1">Applied on</p>
                           <p className="font-medium">
                             {new Date(rider.createdAt).toLocaleDateString(
                               "en-GB"
@@ -153,49 +154,46 @@ const ApproveRider = () => {
                           </p>
                         </div>
                         <div className="pt-3 border-t border-gray-200">
-                          <p className="text-sm text-gray-500 mb-1 ml-1">
-                            Status
-                          </p>
+                          <p className="text-gray-500 mb-1 ml-2">Status</p>
                           <StatusBadge status={rider.status || "pending"} />
                         </div>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-center">
-                      <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl w-32 h-32 flex items-center justify-center">
+                      <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
                         <img
                           src={rider.photoURL}
-                          className="w-full object-cover"
+                          alt="Rider"
+                          className="w-full object-cover rounded-lg"
                         />
                       </div>
                     </div>
                   </div>
-                  {rider.status !== "rejected" && (
-                    <div className="mt-8 flex items-center justify-end gap-4">
-                      {rider.status !== "approved" && (
+
+                  <div className="">
+                    {rider.status == "pending" && (
+                      <div className="mt-8 flex flex-col sm:flex-row items-center justify-end gap-4">
                         <button
-                          onClick={() => handleReject(rider._id)}
-                          className="btn px-8 py-5.5  text-white rounded-lg  font-medium transition shadow-lg disabled:opacity-60 bg-red-800 hover:bg-red-600/90"
+                          onClick={() => handleReject(rider)}
+                          className="btn px-6 py-3 sm:px-8 sm:py-5.5 text-white rounded-lg font-medium transition shadow-lg bg-red-800 hover:bg-red-600/90 disabled:opacity-60 flex items-center gap-2 justify-center"
                         >
-                          Reject
-                          <IoPersonRemove />
+                          Reject <IoPersonRemove />
                         </button>
-                      )}
-                      <button
-                        className={`btn px-8 py-5.5 text-white rounded-lg  hover:bg-primary font-semibold transition shadow-lg disabled:opacity-70 hover:text-secondary  bg-[#749b00] text-[16px] ${
-                          rider.status === "approved" && "disabled md:mr-[7vw]"
-                        }`}
-                        onClick={() => handleApproval(rider._id)}
-                      >
-                        {rider.status === "approved"
-                          ? "Rider Approved"
-                          : "Approve Rider"}
-                        <span className="hover:text-secondary">
+                        <button
+                          className={`btn px-6 py-3 sm:px-8 sm:py-5.5 rounded-lg font-semibold transition shadow-lg ${
+                            rider.status === "approved"
+                              ? "disabled md:mr-[7vw] bg-primary text-secondary cursor-not-allowed"
+                              : "bg-[#b0e413] hover:bg-primary text-whitei hover:text-secondary"
+                          } flex items-center gap-2 justify-center`}
+                          onClick={() => handleApproval(rider)}
+                        >
+                          Approve Rider
                           <FaUserCheck />
-                        </span>
-                      </button>
-                    </div>
-                  )}
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
