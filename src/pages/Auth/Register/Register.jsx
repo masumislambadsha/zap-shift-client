@@ -1,241 +1,246 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../Hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
-import axios from "axios";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import axios from "axios";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
+
   const { registerUser, signInGoogle, updateUserProfile } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
 
-  const handleRegistration = (data) => {
+  const password = watch("password");
+
+  const onSubmit = async (data) => {
     setLoading(true);
+    try {
+      const imageFile = data.photo[0];
+      const formData = new FormData();
+      formData.append("image", imageFile);
 
-    const profileImg = data.photo[0];
-    registerUser(data.email, data.password)
-      .then(() => {
-        const formData = new FormData();
-        formData.append("image", profileImg);
+      const uploadRes = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`,
+        formData
+      );
 
-        const image_Api_Url = `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_image_host_key
-        }`;
-        axios
-          .post(image_Api_Url, formData)
-          .then((res) => {
-            const photoURL = res.data.data.url;
-            const userInfo = {
-              email: data.email,
-              displayName: data.name,
-              photoURL: photoURL,
-            };
+      const photoURL = uploadRes.data.data.url;
 
-            axiosSecure
-              .post("/users", userInfo)
-              .then((res) => {
-                setLoading(false); // End loading
-                if (res.data.insertedId) {
-                  toast.success("Registration Successful");
-                  navigate(location?.state || "/");
-                }
-              })
-              .catch((err) => {
-                setLoading(false);
-                toast.error("User registration failed!");
-                console.log(err);
-              });
+      await registerUser(data.email, data.password);
+      await updateUserProfile({ displayName: data.name, photoURL });
 
-            const userProfile = {
-              displayName: data.name,
-              photoURL: photoURL,
-            };
-            updateUserProfile(userProfile)
-              .then(() => console.log("user profile updated"))
-              .catch((err) => {
-                console.log(err);
-              });
-          })
-          .catch((err) => {
-            setLoading(false);
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+      const userInfo = {
+        email: data.email,
+        displayName: data.name,
+        photoURL,
+        role: "user",
+        createdAt: new Date().toISOString(),
+      };
+
+      await axiosSecure.post("/users", userInfo);
+
+      toast.success("Welcome to ZapShift!");
+      navigate(from, { replace: true });
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ||
+          err.code === "auth/email-already-in-use"
+          ? "Email already registered"
+          : "Registration failed"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    signInGoogle()
-      .then((res) => {
-        const userInfo = {
-          email: res.user.email,
-          displayName: res.user.displayName,
-          photoURL: res.user.photoURL,
-        };
-        axiosSecure
-          .post("/users", userInfo)
-          .then((dbRes) => {
-            if (
-              dbRes.data.insertedId ||
-              dbRes.data.message === "User already exists"
-            ) {
-              console.log("User stored/exists in DB", dbRes.data);
-              navigate(location?.state || "/");
-              toast.success("Registered With Google Successfully");
-            } else {
-              toast.error("Failed saving user to DB");
-            }
-          })
-          .catch((err) => {
-            toast.error("User registration failed!");
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInGoogle();
+      const user = result.user;
+
+      const userInfo = {
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL || "",
+        role: "user",
+        createdAt: new Date().toISOString(),
+      };
+
+      await axiosSecure.post("/users", userInfo);
+      toast.success("Signed up with Google!");
+      navigate(from, { replace: true });
+    } catch (err) {
+      toast.error("Google signup failed", err);
+    }
   };
 
   return (
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mx-auto">
-      <h3 className="text-3xl text-center font-medium">Welcome To Zap Shift</h3>
-      <p className="text-center font-medium">Please Register</p>
-      <form onSubmit={handleSubmit(handleRegistration)} className="card-body">
-        <fieldset className="fieldset">
-          <label className="label">Name</label>
-          <input
-            type="text"
-            {...register("name", { required: true })}
-            className="input"
-            placeholder="Your Name"
-          />
-          {errors.name?.type === "required" && (
-            <p className="text-red-600">Name Is Required</p>
-          )}
-          <label className="label">Image</label>
-          <input
-            type="file"
-            {...register("photo", { required: true })}
-            className="file-input"
-            placeholder="Your Photo"
-          />
-          {errors.photo?.type === "required" && (
-            <p className="text-red-600">Photo Is Required</p>
-          )}
-          <label className="label">Email</label>
-          <input
-            type="email"
-            {...register("email", { required: true })}
-            className="input"
-            placeholder="Email"
-          />
-          {errors.email?.type === "required" && (
-            <p className="text-red-600">Email Is Required</p>
-          )}
-          <label className="label">Password</label>
-          <input
-            type="password"
-            {...register("password", {
-              required: true,
-              minLength: 6,
-              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
-            })}
-            className="input"
-            placeholder="Password"
-          />
-          {errors.password?.type === "required" && (
-            <p className="text-red-600">Password Is Required</p>
-          )}
-          {errors.password?.type === "minLength" && (
-            <p className="text-red-600">At Least 6 Digit Password</p>
-          )}
-          <button className="btn btn-neutral mt-4" disabled={loading}>
-            {loading ? (
-              <>
-                <span className="loader mr-2"></span> Creating Account...
-              </>
-            ) : (
-              "Register"
-            )}
-          </button>
-        </fieldset>
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-rose-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
+          {/* Gradient Header */}
+          <div className="bg-gradient-to-r from-[#b0e413] to-primary/80 text-secondary p-10 text-center">
+            <div className="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <svg className="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H9a4 4 0 01-4-4v-1a4 4 0 014-4h6a4 4 0 014 4v1a4 4 0 01-4 4z" />
+              </svg>
+            </div>
+            <h1 className="text-4xl font-bold">Join ZapShift</h1>
+            <p className="mt-3 text-secondary/90 text-lg">Create your account in seconds</p>
+          </div>
 
-        <p className="text-sm ">
-          Already have an account{" "}
-          <Link
-            className="underline text-blue-500"
-            state={location.state}
-            to={"/login"}
-          >
-            Login
-          </Link>{" "}
-        </p>
-      </form>
-      <p className="text-center -mt-[15px] mb-2">OR</p>
-      <button
-        onClick={handleGoogleSignIn}
-        className="btn bg-white text-black border-[#e5e5e5] mb-6"
-      >
-        <svg
-          aria-label="Google logo"
-          width="16"
-          height="16"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-        >
-          <g>
-            <path d="m0 0H512V512H0" fill="#fff"></path>
-            <path
-              fill="#34a853"
-              d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-            ></path>
-            <path
-              fill="#4285f4"
-              d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-            ></path>
-            <path
-              fill="#fbbc02"
-              d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-            ></path>
-            <path
-              fill="#ea4335"
-              d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-            ></path>
-          </g>
-        </svg>
-        Login with Google
-      </button>
-      {/* Loader CSS below */}
-      <style>
-        {`
-          .loader {
-            border: 3px solid #e0e0e0;
-            border-top: 3px solid #76c7c0;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            animation: spin 1s linear infinite;
-            vertical-align: middle;
-          }
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
+          <div className="p-8 pt-10">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  {...register("name", { required: "Name is required" })}
+                  className="input input-bordered w-full h-14 rounded-xl text-lg focus:ring-4 focus:ring-lime-200 focus:border-[#b0e413] transition-all outline-0"
+                  placeholder="John Doe"
+                />
+                {errors.name && <p className="text-red-600 text-sm mt-2 font-medium">{errors.name.message}</p>}
+              </div>
+
+              {/* Photo Upload */}
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Profile Photo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  {...register("photo", { required: "Photo is required" })}
+                  className="file-input file-input-bordered w-full rounded-xl h-14 focus:ring-4 focus:ring-lime-200 outline-0"
+                />
+                {errors.photo && <p className="text-red-600 text-sm mt-2 font-medium">{errors.photo.message}</p>}
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Email Address</label>
+                <input
+                  type="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: { value: /^\S+@\S+$/i, message: "Invalid email" },
+                  })}
+                  className="input input-bordered w-full h-14 rounded-xl text-lg focus:ring-4 focus:ring-lime-200 focus:border-[#b0e413] transition-all outline-0"
+                  placeholder="you@example.com"
+                />
+                {errors.email && <p className="text-red-600 text-sm mt-2 font-medium">{errors.email.message}</p>}
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Password</label>
+                <input
+                  type="password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: { value: 6, message: "Minimum 6 characters" },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+                      message: "Must include uppercase, lowercase, number & special char",
+                    },
+                  })}
+                  className="input input-bordered w-full h-14 rounded-xl text-lg focus:ring-4 focus:ring-lime-200 focus:border-[#b0e413] transition-all outline-0"
+                  placeholder="••••••••"
+                />
+                {errors.password && <p className="text-red-600 text-sm mt-2 font-medium">{errors.password.message}</p>}
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Confirm Password</label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    required: "Please confirm your password",
+                    validate: (value) => value === password || "Passwords do not match",
+                  })}
+                  className="input input-bordered w-full h-14 rounded-xl text-lg focus:ring-4 focus:ring-lime-200 focus:border-[#b0e413] transition-all outline-0"
+                  placeholder="••••••••"
+                />
+                {errors.confirmPassword && <p className="text-red-600 text-sm mt-2 font-medium">{errors.confirmPassword.message}</p>}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full btn btn-lg bg-gradient-to-r from-[#b0e413] to-primary/80 hover:from-[#a0d010] hover:to-primary text-secondary font-bold text-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 border-0 disabled:opacity-70"
+              >
+                {loading ? (
+                  <>
+                    <span className="loading loading-spinner loading-sm"></span>
+                    Creating Account...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="flex items-center my-10">
+              <div className="flex-1 h-px bg-gray-300"></div>
+              <span className="px-6 text-gray-500 font-bold bg-white">OR</span>
+              <div className="flex-1 h-px bg-gray-300"></div>
+            </div>
+
+            {/* SUPER COOL Google Button */}
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+              className="group relative w-full flex items-center justify-center gap-4 px-8 py-5
+                         bg-white border-2 border-gray-300 rounded-2xl
+                         text-gray-800 font-bold text-lg
+                         shadow-lg hover:shadow-2xl
+                         transition-all duration-300
+                         hover:border-[#b0e413] hover:bg-gradient-to-r hover:from-[#b0e413]/5 hover:to-primary/5
+                         active:scale-98"
+            >
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-20 transition-opacity"></div>
+
+              <FcGoogle size={30} className="drop-shadow-md" />
+              <span className="relative">Continue with Google</span>
+
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-30 blur-xl transition-opacity"></div>
+            </button>
+
+            {/* Login Link */}
+            <p className="text-center mt-10 text-gray-700 text-lg">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                state={{ from: location.state }}
+                className="font-bold text-[#b0e413] hover:underline transition"
+              >
+                Login Here
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-10">
+          <p className="text-gray-600 text-sm">
+            © 2025 <span className="font-bold text-[#b0e413]">ZapShift</span> • Fastest Parcel Delivery in Bangladesh
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
