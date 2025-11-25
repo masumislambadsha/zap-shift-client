@@ -100,7 +100,7 @@ const SendAParcel = () => {
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8">
+          <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white p-8">
             <h2 className="text-2xl font-bold">Parcel Booking Form</h2>
             <p className="mt-2 opacity-90">Fast • Secure • Nationwide Delivery</p>
           </div>
@@ -122,7 +122,7 @@ const SendAParcel = () => {
                       {...register("parcelType")}
                       className="radio radio-primary radio-lg"
                     />
-                    <span className="text-lg font-medium capitalize group-hover:text-primary transition">
+                    <span className="text-lg font-medium capitalize group-hover:text-black text-secondary transition">
                       {type.replace("-", " ")}
                     </span>
                   </label>
@@ -225,9 +225,9 @@ const SendAParcel = () => {
             <div className="text-center pt-6">
               <button
                 type="submit"
-                className="btn btn-primary btn-wide text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                className="btn btn-primary btn-wide text-lg font-bold text-secondary shadow-lg hover:shadow-xl transition-all duration-300 px-3 py-9"
               >
-                Calculate Cost & Book Parcel
+                Send Parcel
               </button>
             </div>
           </form>
