@@ -59,12 +59,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-rose-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-red-50 via-white to-rose-50 flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
         {/* Main Card */}
         <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
           {/* Gradient Header */}
-          <div className="bg-gradient-to-r from-[#b0e413] to-primary/80 text-secondary p-8 text-center">
+          <div className="bg-linear-to-r from-[#b0e413] to-primary/80 text-secondary p-8 text-center">
             <h1 className="text-4xl font-bold">Welcome Back!</h1>
             <p className="mt-2 text-secondary/90">Login to continue delivering with ZapShift</p>
           </div>
@@ -116,7 +116,7 @@ const Login = () => {
               {/* Login Button */}
               <button
                 type="submit"
-                className="w-full btn btn-lg bg-gradient-to-r from-[#b0e413] to-primary/80 hover:bg-primary  text-secondary font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 border-0"
+                className="w-full btn btn-lg bg-linear-to-r from-[#b0e413] to-primary/80 hover:bg-primary  text-secondary font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 border-0"
               >
                 Login Now
               </button>
