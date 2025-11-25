@@ -69,6 +69,8 @@ const BeARider = () => {
               defaultValue={user?.displayName || ""}
               placeholder="Your Name"
               className="input-custom"
+              readOnly
+              disabled
             />
 
             <label className="text-sm font-medium text-[#133742]">
@@ -89,6 +91,18 @@ const BeARider = () => {
               {...register("email")}
               defaultValue={user?.email || ""}
               placeholder="Your Email"
+              readOnly
+              className="input-custom"
+              disabled
+            />
+            <label className="text-sm font-medium text-[#133742]">
+              Your Image URL
+            </label>
+            <input
+              type="photoURL"
+              {...register("photoURL")}
+              defaultValue={user?.photoURL}
+              placeholder="Your Photo URL"
               className="input-custom"
             />
 
