@@ -2,7 +2,7 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { CiDeliveryTruck } from "react-icons/ci";
 import useAuth from "../Hooks/useAuth";
-import { FaRegCreditCard } from "react-icons/fa";
+import { FaRegCreditCard, FaUser } from "react-icons/fa";
 import RiderCard from "../assets/ApproveRiderButton";
 import { FaMotorcycle } from "react-icons/fa";
 
@@ -142,6 +142,19 @@ const DashboardLayout = () => {
                 </NavLink>
               </li>
 
+              <li>
+                <NavLink
+                  to={"user-management"}
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                  data-tip="User-Management"
+                >
+                  <FaUser color="teal" size={20} />
+
+                  <span className="is-drawer-close:hidden">
+                    User-Management
+                  </span>
+                </NavLink>
+              </li>
               <li>
                 <NavLink
                   to={"approve-riders"}
