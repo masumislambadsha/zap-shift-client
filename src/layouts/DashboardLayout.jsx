@@ -5,8 +5,10 @@ import useAuth from "../Hooks/useAuth";
 import { FaRegCreditCard, FaUser } from "react-icons/fa";
 import RiderCard from "../assets/ApproveRiderButton";
 import { FaMotorcycle } from "react-icons/fa";
+import useRole from "../Hooks/useRole";
 
 const DashboardLayout = () => {
+  const {role} = useRole();
   const { user } = useAuth();
   const navItems = [
     { to: "/", label: "Services" },
@@ -141,8 +143,10 @@ const DashboardLayout = () => {
                   </span>
                 </NavLink>
               </li>
- 
-              <li>
+
+             {
+              role === "admin" && <div>
+                 <li>
                 <NavLink
                   to={"user-management"}
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
@@ -166,6 +170,8 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">Approve Riders</span>
                 </NavLink>
               </li>
+              </div>
+             }
               <li>
                 <button
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded w-full text-left"
