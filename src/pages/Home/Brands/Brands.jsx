@@ -12,7 +12,7 @@ const brands = [amazon, casio, moonstart, randstad, star, startPeople];
 const Brands = () => {
   return (
     <div className="mt-12">
-      <Marquee speed={120}  gradient={false}>
+      <Marquee speed={120} linear={false}>
         {brands.map((logo, ind) => (
           <div key={ind} className="mx-8">
             <img src={logo} alt="" className="h-6" />

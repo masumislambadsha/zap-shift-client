@@ -132,7 +132,7 @@ const UserManagement = () => {
                   fill="none"
                   stroke="currentColor"
                 >
-                  ircle cx="11" cy="11" r="7" />
+                  <circle cx="11" cy="11" r="7" />
                   <path d="m20 20-4-4" />
                 </g>
               </svg>

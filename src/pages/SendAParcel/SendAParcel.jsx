@@ -9,7 +9,12 @@ const SendAParcel = () => {
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
-  const { register, control, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { user } = useAuth();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
@@ -50,10 +55,16 @@ const SendAParcel = () => {
       title: `Total Cost: ${cost} BDT`,
       html: `
         <div class="text-left text-sm space-y-1">
-          <p><strong>Type:</strong> ${data.parcelType === "document" ? "Document" : "Non-Document"}</p>
+          <p><strong>Type:</strong> ${
+            data.parcelType === "document" ? "Document" : "Non-Document"
+          }</p>
           <p><strong>Weight:</strong> ${data.parcelWeight} kg</p>
-          <p><strong>From:</strong> ${data.senderDistrict}, ${data.senderRegion}</p>
-          <p><strong>To:</strong> ${data.reciverDistrict}, ${data.reciverRegion}</p>
+          <p><strong>From:</strong> ${data.senderDistrict}, ${
+        data.senderRegion
+      }</p>
+          <p><strong>To:</strong> ${data.reciverDistrict}, ${
+        data.reciverRegion
+      }</p>
         </div>
       `,
       icon: "info",
@@ -64,9 +75,15 @@ const SendAParcel = () => {
       cancelButtonColor: "#6b7280",
     }).then((result) => {
       if (result.isConfirmed) {
-        const parcelData = { ...data, cost, status: "pending", bookingDate: new Date() };
+        const parcelData = {
+          ...data,
+          cost,
+          status: "pending",
+          bookingDate: new Date(),
+        };
 
-        axiosSecure.post("/parcels", parcelData)
+        axiosSecure
+          .post("/parcels", parcelData)
           .then((res) => {
             if (res.data.insertedId) {
               Swal.fire({
@@ -74,7 +91,7 @@ const SendAParcel = () => {
                 text: "Your parcel is now in dispatch queue.",
                 icon: "success",
                 timer: 2000,
-                showConfirmButton: false
+                showConfirmButton: false,
               });
               navigate("/dashboard/my-parcels");
             }
@@ -100,15 +117,19 @@ const SendAParcel = () => {
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white p-8">
+          <div className="bg-linear-to-r from-slate-800 to-slate-900 text-white p-8">
             <h2 className="text-2xl font-bold">Parcel Booking Form</h2>
-            <p className="mt-2 opacity-90">Fast • Secure • Nationwide Delivery</p>
+            <p className="mt-2 opacity-90">
+              Fast • Secure • Nationwide Delivery
+            </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-10">
             {/* Parcel Type */}
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-800 mb-5">Parcel Type</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-5">
+                Parcel Type
+              </h3>
               <div className="flex flex-wrap gap-8">
                 {["document", "non-document"].map((type) => (
                   <label
@@ -137,12 +158,18 @@ const SendAParcel = () => {
                   Parcel Name
                 </label>
                 <input
-                  {...register("parcelName", { required: "Parcel name is required" })}
+                  {...register("parcelName", {
+                    required: "Parcel name is required",
+                  })}
                   type="text"
                   placeholder="e.g., Gift Box, Laptop, Documents"
                   className="input input-bordered w-full h-12 rounded-xl"
                 />
-                {errors.parcelName && <p className="text-red-500 text-sm mt-1">{errors.parcelName.message}</p>}
+                {errors.parcelName && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.parcelName.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -152,13 +179,20 @@ const SendAParcel = () => {
                 <input
                   {...register("parcelWeight", {
                     required: "Weight is required",
-                    pattern: { value: /^\d*\.?\d+$/, message: "Enter a valid number" }
+                    pattern: {
+                      value: /^\d*\.?\d+$/,
+                      message: "Enter a valid number",
+                    },
                   })}
                   type="text"
                   placeholder="e.g., 2.5"
                   className="input input-bordered w-full h-12 rounded-xl"
                 />
-                {errors.parcelWeight && <p className="text-red-500 text-sm mt-1">{errors.parcelWeight.message}</p>}
+                {errors.parcelWeight && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.parcelWeight.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -170,18 +204,50 @@ const SendAParcel = () => {
                   Sender
                 </h3>
                 <div className="space-y-5">
-                  <input {...register("senderName")} value={user?.displayName || ""} readOnly className="input input-bordered w-full bg-white/70" />
-                  <input {...register("senderEmail")} value={user?.email || ""} readOnly className="input input-bordered w-full bg-white/70" />
-                  <input {...register("senderPhoneNo", { required: true })} placeholder="Sender Phone" className="input input-bordered w-full" required />
+                  <input
+                    {...register("senderName")}
+                    value={user?.displayName || ""}
+                    readOnly
+                    className="input input-bordered w-full bg-white/70"
+                  />
+                  <input
+                    {...register("senderEmail")}
+                    value={user?.email || ""}
+                    readOnly
+                    className="input input-bordered w-full bg-white/70"
+                  />
+                  <input
+                    {...register("senderPhoneNo", { required: true })}
+                    placeholder="Sender Phone"
+                    className="input input-bordered w-full"
+                    required
+                  />
 
-                  <select {...register("senderRegion", { required: true })} className="select select-bordered w-full rounded-xl">
+                  <select
+                    {...register("senderRegion", { required: true })}
+                    className="select select-bordered w-full rounded-xl"
+                  >
                     <option value="">Select Sender Region</option>
-                    {regions.map((r) => (<option key={r} value={r}>{r}</option>))}
+                    {regions.map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
                   </select>
 
-                  <select {...register("senderDistrict", { required: true })} className="select select-bordered w-full rounded-xl" disabled={!senderRegion}>
-                    <option>{senderRegion ? "Select District" : "First select region"}</option>
-                    {districtsByRegion(senderRegion).map((d) => (<option key={d} value={d}>{d}</option>))}
+                  <select
+                    {...register("senderDistrict", { required: true })}
+                    className="select select-bordered w-full rounded-xl"
+                    disabled={!senderRegion}
+                  >
+                    <option>
+                      {senderRegion ? "Select District" : "First select region"}
+                    </option>
+                    {districtsByRegion(senderRegion).map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
                   </select>
 
                   <textarea
@@ -198,18 +264,52 @@ const SendAParcel = () => {
                   Receiver
                 </h3>
                 <div className="space-y-5">
-                  <input {...register("reciverName", { required: true })} placeholder="Receiver Name" className="input input-bordered w-full" required />
-                  <input {...register("reciverEmail")} type="email" placeholder="Receiver Email (optional)" className="input input-bordered w-full" />
-                  <input {...register("reciverPhoneNo", { required: true })} placeholder="Receiver Phone" className="input input-bordered w-full" required />
+                  <input
+                    {...register("reciverName", { required: true })}
+                    placeholder="Receiver Name"
+                    className="input input-bordered w-full"
+                    required
+                  />
+                  <input
+                    {...register("reciverEmail")}
+                    type="email"
+                    placeholder="Receiver Email (optional)"
+                    className="input input-bordered w-full"
+                  />
+                  <input
+                    {...register("reciverPhoneNo", { required: true })}
+                    placeholder="Receiver Phone"
+                    className="input input-bordered w-full"
+                    required
+                  />
 
-                  <select {...register("reciverRegion", { required: true })} className="select select-bordered w-full rounded-xl">
+                  <select
+                    {...register("reciverRegion", { required: true })}
+                    className="select select-bordered w-full rounded-xl"
+                  >
                     <option value="">Select Receiver Region</option>
-                    {regions.map((r) => (<option key={r} value={r}>{r}</option>))}
+                    {regions.map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
                   </select>
 
-                  <select {...register("reciverDistrict", { required: true })} className="select select-bordered w-full rounded-xl" disabled={!reciverRegion}>
-                    <option>{reciverRegion ? "Select District" : "First select region"}</option>
-                    {districtsByRegion(reciverRegion).map((d) => (<option key={d} value={d}>{d}</option>))}
+                  <select
+                    {...register("reciverDistrict", { required: true })}
+                    className="select select-bordered w-full rounded-xl"
+                    disabled={!reciverRegion}
+                  >
+                    <option>
+                      {reciverRegion
+                        ? "Select District"
+                        : "First select region"}
+                    </option>
+                    {districtsByRegion(reciverRegion).map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
                   </select>
 
                   <textarea
@@ -234,7 +334,7 @@ const SendAParcel = () => {
         </div>
 
         {/* Info Card */}
-        <div className="mt-10 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 text-center border border-purple-200">
+        <div className="mt-10 bg-linear-to-r from-purple-100 to-pink-100 rounded-2xl p-6 text-center border border-purple-200">
           <p className="text-lg font-medium text-purple-900">
             Estimated delivery: 1–3 business days • Cash on Delivery Available
           </p>

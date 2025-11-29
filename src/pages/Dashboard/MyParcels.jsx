@@ -145,7 +145,7 @@ const MyParcels = () => {
                 key={parcel._id}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden"
               >
-                {/* Gradient Header */}
+                {/* linear Header */}
                 <div className="bg-linear-to-r from-primary to-primary/80 text-secondary p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div>
                     <h3 className="text-xl font-bold flex items-center gap-3">
