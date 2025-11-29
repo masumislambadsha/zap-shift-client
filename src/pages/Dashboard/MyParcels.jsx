@@ -3,7 +3,14 @@ import useAuth from "../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { FiEdit, FiEye } from "react-icons/fi";
-import { FaTrashAlt, FaTruck, FaMoneyBillWave, FaCheckCircle } from "react-icons/fa";
+import { TbCoinTakaFilled } from "react-icons/tb";
+
+import {
+  FaTrashAlt,
+  FaTruck,
+  FaMoneyBillWave,
+  FaCheckCircle,
+} from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
 
@@ -55,12 +62,19 @@ const MyParcels = () => {
     };
 
     try {
-      const res = await axiosSecure.post("/payment-checkout-session", paymentInfo);
+      const res = await axiosSecure.post(
+        "/payment-checkout-session",
+        paymentInfo
+      );
       if (res.data.url) {
         window.location.replace(res.data.url); // Full redirect for payment gateway
       }
     } catch {
-      Swal.fire("Payment Failed", "Could not initiate payment. Try again.", "error");
+      Swal.fire(
+        "Payment Failed",
+        "Could not initiate payment. Try again.",
+        "error"
+      );
     }
   };
 
@@ -102,7 +116,8 @@ const MyParcels = () => {
             My Parcels
           </h1>
           <p className="mt-3 text-xl text-gray-600">
-            Total Bookings: <span className="font-bold text-red-600">{parcels.length}</span>
+            Total Bookings:{" "}
+            <span className="font-bold text-red-600">{parcels.length}</span>
           </p>
         </div>
 
@@ -110,8 +125,12 @@ const MyParcels = () => {
         {parcels.length === 0 ? (
           <div className="bg-white rounded-3xl shadow-xl p-20 text-center border border-gray-200">
             <div className="text-8xl mb-6 text-gray-300">Parcel</div>
-            <h3 className="text-2xl font-semibold text-gray-700">No parcels booked yet</h3>
-            <p className="text-gray-500 mt-3">Start sending your first parcel today!</p>
+            <h3 className="text-2xl font-semibold text-gray-700">
+              No parcels booked yet
+            </h3>
+            <p className="text-gray-500 mt-3">
+              Start sending your first parcel today!
+            </p>
             <Link
               to="/send-parcel"
               className="mt-8 inline-block btn btn-wide btn-primary text-lg font-bold"
@@ -133,7 +152,10 @@ const MyParcels = () => {
                       <FaTruck /> {parcel.parcelName}
                     </h3>
                     <p className="text-sm opacity-90 mt-1">
-                      Booked on: {new Date(parcel.bookingDate || parcel.createdAt).toLocaleDateString("en-GB")}
+                      Booked on:{" "}
+                      {new Date(
+                        parcel.bookingDate || parcel.createdAt
+                      ).toLocaleDateString("en-GB")}
                     </p>
                   </div>
                   <div className="text-right">
@@ -162,7 +184,9 @@ const MyParcels = () => {
                       <h4 className="font-semibold text-gray-600 flex items-center gap-2">
                         To
                       </h4>
-                      <p className="text-lg font-medium">{parcel.reciverName}</p>
+                      <p className="text-lg font-medium">
+                        {parcel.reciverName}
+                      </p>
                       <p className="text-sm text-gray-600">
                         {parcel.reciverDistrict}, {parcel.reciverRegion}
                       </p>
@@ -171,9 +195,15 @@ const MyParcels = () => {
                     {/* Price & Info */}
                     <div className="text-right md:text-left">
                       <p className="text-sm text-gray-500">Total Cost</p>
-                      <p className="text-3xl font-bold text-secondary">৳{parcel.cost}</p>
+                      <p className="text-3xl font-bold text-secondary flex items-center ">
+                        {parcel.cost}
+                        <TbCoinTakaFilled className="mt-1" />
+                      </p>
                       <p className="text-sm text-gray-600 mt-2">
-                        {parcel.parcelWeight} kg • {parcel.parcelType === "document" ? "Document" : "Non-Document"}
+                        {parcel.parcelWeight} kg •{" "}
+                        {parcel.parcelType === "document"
+                          ? "Document"
+                          : "Non-Document"}
                       </p>
                     </div>
                   </div>
@@ -202,7 +232,7 @@ const MyParcels = () => {
                       <div>
                         <p className="text-sm text-gray-500">Delivery Status</p>
                         <div className="mt-2">
-                          <StatusBadge status={parcel.status} />
+                          <StatusBadge status={parcel.deliverStatus} />
                         </div>
                       </div>
                     </div>
@@ -216,7 +246,8 @@ const MyParcels = () => {
                       <button className="btn btn-ghost btn-circle hover:bg-green-100 text-green-600">
                         <FiEye size={20} />
                       </button>
-                      {(parcel.status === "pending" || parcel.status === "cancelled") && (
+                      {(parcel.status === "pending" ||
+                        parcel.status === "cancelled") && (
                         <button
                           onClick={() => handleParcelDelete(parcel._id)}
                           className="btn btn-ghost btn-circle hover:bg-red-100 text-red-600"
