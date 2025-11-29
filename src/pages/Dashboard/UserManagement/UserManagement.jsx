@@ -107,41 +107,45 @@ const UserManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <label className="input mb-6 flex items-center gap-2">
-          <svg
-            className="h-[1em] opacity-50"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2.5"
-              fill="none"
-              stroke="currentColor"
-            >
-              ircle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </g>
-          </svg>
-          <input
-            type="search"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="grow"
-            placeholder="Search by name or email"
-            autoFocus
-          />
-        </label>
+      <div className="max-w-6xl mx-auto space-y-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+              Manage Users
+            </h1>
+            <p className="text-sm sm:text-base text-gray-500 mt-1">
+              {users.length} user{users.length !== 1 && "s"} found
+            </p>
+          </div>
 
-        <div className="text-center mb-12">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-800">
-            Manage Users
-          </h1>
-          <p className="text-lg sm:text-2xl font-medium text-primary mt-3">
-            {users.length} user{users.length !== 1 && "s"} in the system
-          </p>
+          <div className="w-full sm:w-72">
+            <label className="flex items-center gap-2 rounded-full bg-white border border-gray-200 px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/60">
+              <svg
+                className="h-4 w-4 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <g
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  ircle cx="11" cy="11" r="7" />
+                  <path d="m20 20-4-4" />
+                </g>
+              </svg>
+              <input
+                type="search"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+                placeholder="Search by name or email"
+                autoFocus
+              />
+            </label>
+          </div>
         </div>
 
         {users.length === 0 ? (
@@ -149,7 +153,7 @@ const UserManagement = () => {
             <div className="text-6xl mb-4">👥</div>
             <p className="text-xl text-gray-600">No users found.</p>
             <p className="text-gray-500">
-              Start inviting people to your platform.
+              Try a different name or email keyword.
             </p>
           </div>
         ) : (
@@ -160,8 +164,10 @@ const UserManagement = () => {
                 className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
               >
                 <div className="bg-primary text-secondary p-5 flex justify-between items-center">
-                  <h3 className="text-xl font-bold">User Profile</h3>
-                  <span className="bg-white/25 px-4 py-1 rounded-full text-sm">
+                  <h3 className="text-lg sm:text-xl font-semibold">
+                    User Profile
+                  </h3>
+                  <span className="bg-white/20 px-4 py-1 rounded-full text-xs sm:text-sm">
                     Account Overview
                   </span>
                 </div>
@@ -170,14 +176,14 @@ const UserManagement = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold text-primary">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold text-primary">
                           {singleUser.displayName?.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <h4 className="text-lg sm:text-xl font-semibold text-gray-800">
+                          <h4 className="text-base sm:text-lg font-semibold text-gray-900">
                             {singleUser.displayName || "Unnamed User"}
                           </h4>
-                          <p className="text-gray-600 text-sm sm:text-base">
+                          <p className="text-gray-600 text-sm">
                             {singleUser.email}
                           </p>
                         </div>
@@ -186,13 +192,13 @@ const UserManagement = () => {
                       <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
                         <div>
                           <span className="text-gray-500">Role</span>
-                          <div className="mt-1">
+                          <div className="mt-2">
                             <StatusBadge role={singleUser.role} />
                           </div>
                         </div>
                         <div>
                           <span className="text-gray-500">Joined</span>
-                          <p className="font-medium">
+                          <p className="font-medium text-gray-800 mt-0.5">
                             {singleUser.createdAt
                               ? new Date(
                                   singleUser.createdAt
@@ -204,7 +210,7 @@ const UserManagement = () => {
                     </div>
 
                     <div className="flex flex-col items-center justify-center gap-4">
-                      <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
+                      <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center">
                         {singleUser.photoURL ? (
                           <img
                             src={singleUser.photoURL}
@@ -212,25 +218,25 @@ const UserManagement = () => {
                             className="w-full h-full object-cover rounded-lg"
                           />
                         ) : (
-                          <span className="text-4xl text-gray-400">👤</span>
+                          <span className="text-3xl text-gray-400">👤</span>
                         )}
                       </div>
 
                       {singleUser.role === "admin" ? (
                         <button
                           onClick={() => handleRemoveAdmin(singleUser)}
-                          className="btn mt-2 px-6 py-3 sm:px-8 sm:py-5.5 text-white rounded-lg font-medium transition shadow-lg bg-red-700 hover:bg-red-600/90 flex items-center gap-2 justify-center"
+                          className="btn mt-1 px-5 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base text-white rounded-lg font-medium bg-red-600 hover:bg-red-500 shadow-md flex items-center gap-2 justify-center"
                         >
                           Remove Admin
-                          <FaTrashAlt />
+                          <FaTrashAlt className="text-xs sm:text-sm" />
                         </button>
                       ) : (
                         <button
                           onClick={() => handleMakeAdmin(singleUser)}
-                          className="btn mt-2 px-6 py-3 sm:px-8 sm:py-5.5 rounded-lg font-semibold transition shadow-lg flex items-center gap-2 justify-center bg-[#b0e413] hover:bg-primary text-white hover:text-secondary"
+                          className="btn mt-1 px-5 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base rounded-lg font-semibold bg-[#b0e413] hover:bg-primary text-secondary shadow-md flex items-center gap-2 justify-center"
                         >
                           Make Admin
-                          <FaUserShield />
+                          <FaUserShield className="text-xs sm:text-sm" />
                         </button>
                       )}
                     </div>
