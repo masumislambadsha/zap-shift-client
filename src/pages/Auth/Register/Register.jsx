@@ -85,7 +85,7 @@ const Register = () => {
       await axiosSecure.post("/users", userInfo);
       toast.success("Signed up with Google!");
       navigate(from, { replace: true });
-    } catch (err) {
+    } catch {
       toast.error("Google signup failed");
     }
   };
