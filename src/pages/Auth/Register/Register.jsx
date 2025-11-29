@@ -7,6 +7,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { FaEye, FaEyeSlash, FaRegEye } from "react-icons/fa";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,9 @@ const Register = () => {
       formData.append("image", imageFile);
 
       const uploadRes = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`,
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host_key
+        }`,
         formData
       );
 
@@ -179,7 +182,7 @@ const Register = () => {
                 <label className="block text-sm font-bold text-gray-800 mb-2">
                   Password
                 </label>
-                <div className="relative">
+                <div className="flex items-center w-full h-14 rounded-xl border border-[#b0e413] bg-white px-4 focus-within:ring-4 focus-within:ring-lime-200">
                   <input
                     type={showPass ? "text" : "password"}
                     {...register("password", {
@@ -195,18 +198,18 @@ const Register = () => {
                           "Must include uppercase, lowercase, number & special char",
                       },
                     })}
-                    className="input input-bordered w-full h-14 rounded-xl text-lg pr-12 focus:ring-4 focus:ring-lime-200 focus:border-[#b0e413] transition-all outline-0"
+                    className="flex-1 bg-transparent outline-none text-lg"
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPass((p) => !p)}
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                    className="ml-2 text-gray-500 hover:text-gray-700"
                   >
-                    {showPass ? (
-                      <AiOutlineEyeInvisible size={22} />
+                   {showPass ? (
+                      <FaEyeSlash size={22} />
                     ) : (
-                      <AiOutlineEye size={22} />
+                      <FaRegEye  size={22} />
                     )}
                   </button>
                 </div>
@@ -221,7 +224,7 @@ const Register = () => {
                 <label className="block text-sm font-bold text-gray-800 mb-2">
                   Confirm Password
                 </label>
-                <div className="relative">
+                <div className="flex items-center w-full h-14 rounded-xl border border-[#b0e413] bg-white px-4 focus-within:ring-4 focus-within:ring-lime-200">
                   <input
                     type={showConfirmPass ? "text" : "password"}
                     {...register("confirmPassword", {
@@ -229,18 +232,18 @@ const Register = () => {
                       validate: (value) =>
                         value === password || "Passwords do not match",
                     })}
-                    className="input input-bordered w-full h-14 rounded-xl text-lg pr-12 focus:ring-4 focus:ring-lime-200 focus:border-[#b0e413] transition-all outline-0"
+                    className="flex-1 bg-transparent outline-none text-lg"
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPass((p) => !p)}
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                    className="ml-2 text-gray-500 hover:text-gray-700"
                   >
                     {showConfirmPass ? (
-                      <AiOutlineEyeInvisible size={22} />
+                      <FaEyeSlash size={22} />
                     ) : (
-                      <AiOutlineEye size={22} />
+                      <FaRegEye  size={22} />
                     )}
                   </button>
                 </div>
