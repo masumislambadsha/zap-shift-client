@@ -7,13 +7,15 @@ const AssignRider = () => {
   const {data : parcels = []} = useQuery({
     queryKey : ['parcel', "pending-pickup"],
     queryFn: async () =>{
-      const res = await axiosSecure.get("")
+      const res = await axiosSecure.get(`/parcels?deliverStatus=pending-pickup`)
+
       return res.data
     }
   })
   return (
     <div>
       <h2 className="text-5xl">Assign Rider {parcels.length} </h2>
+
     </div>
   );
 };
