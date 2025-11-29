@@ -6,6 +6,8 @@ import { FaRegCreditCard, FaUser } from "react-icons/fa";
 import RiderCard from "../assets/ApproveRiderButton";
 import { FaMotorcycle } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
+import { RiEBike2Fill } from "react-icons/ri";
+
 
 const DashboardLayout = () => {
   const {role} = useRole();
@@ -176,7 +178,7 @@ const DashboardLayout = () => {
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
                   data-tip="Assign Rider"
                 >
-                  <FaMotorcycle color="green" size={22} />
+                  <RiEBike2Fill  color="green" size={22} />
 
                   <span className="is-drawer-close:hidden">Assign Rider</span>
                 </NavLink>
