@@ -59,7 +59,7 @@ const MyParcels = () => {
       if (res.data.url) {
         window.location.replace(res.data.url); // Full redirect for payment gateway
       }
-    } catch (err) {
+    } catch {
       Swal.fire("Payment Failed", "Could not initiate payment. Try again.", "error");
     }
   };
@@ -121,13 +121,13 @@ const MyParcels = () => {
           </div>
         ) : (
           <div className="space-y-8">
-            {parcels.map((parcel, index) => (
+            {parcels.map((parcel) => (
               <div
                 key={parcel._id}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden"
               >
                 {/* Gradient Header */}
-                <div className="bg-gradient-to-r from-primary to-primary/80 text-secondary p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="bg-linear-to-r from-primary to-primary/80 text-secondary p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div>
                     <h3 className="text-xl font-bold flex items-center gap-3">
                       <FaTruck /> {parcel.parcelName}
@@ -191,7 +191,7 @@ const MyParcels = () => {
                         ) : (
                           <button
                             onClick={() => handlePayment(parcel)}
-                            className="mt-1 btn btn-sm bg-gradient-to-r from-orange-500 to-red-500 text-white hover:shadow-lg border-0"
+                            className="mt-1 btn btn-sm bg-linear-to-r from-orange-500 to-red-500 text-white hover:shadow-lg border-0"
                           >
                             <FaMoneyBillWave className="mr-1" /> Pay Now
                           </button>
