@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { FaUserShield } from "react-icons/fa";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaUserShield, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const StatusBadge = ({ role }) => {
@@ -29,15 +28,25 @@ const StatusBadge = ({ role }) => {
 const UserManagement = () => {
   const axiosSecure = useAxiosSecure();
   const [searchText, setSearchText] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setDebouncedSearch(searchText);
+    }, 400);
+    return () => clearTimeout(id);
+  }, [searchText]);
 
   const {
     data: users = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["users", debouncedSearch],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users?searchText=${searchText}`);
+      const res = await axiosSecure.get(
+        `/users?searchText=${encodeURIComponent(debouncedSearch)}`
+      );
       return res.data;
     },
   });
@@ -91,7 +100,7 @@ const UserManagement = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -99,16 +108,7 @@ const UserManagement = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-800">
-            Manage Users
-          </h1>
-          <p className="text-lg sm:text-2xl font-medium text-primary mt-3">
-            {users.length} user{users.length !== 1 && "s"} in the system
-          </p>
-        </div>
-        <label className="input">
+        <label className="input mb-6 flex items-center gap-2">
           <svg
             className="h-[1em] opacity-50"
             xmlns="http://www.w3.org/2000/svg"
@@ -121,13 +121,28 @@ const UserManagement = () => {
               fill="none"
               stroke="currentColor"
             >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
+              ircle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
             </g>
           </svg>
-          <input type="search"
-          onChange={(e)=>setSearchText(e.target.value)} className="grow" placeholder="Search" />
+          <input
+            type="search"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="grow"
+            placeholder="Search by name or email"
+            autoFocus
+          />
         </label>
+
+        <div className="text-center mb-12">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-800">
+            Manage Users
+          </h1>
+          <p className="text-lg sm:text-2xl font-medium text-primary mt-3">
+            {users.length} user{users.length !== 1 && "s"} in the system
+          </p>
+        </div>
 
         {users.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-16 text-center">
@@ -144,7 +159,6 @@ const UserManagement = () => {
                 key={singleUser._id}
                 className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
               >
-                {/* Card header */}
                 <div className="bg-primary text-secondary p-5 flex justify-between items-center">
                   <h3 className="text-xl font-bold">User Profile</h3>
                   <span className="bg-white/25 px-4 py-1 rounded-full text-sm">
@@ -154,7 +168,6 @@ const UserManagement = () => {
 
                 <div className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    {/* Left: info */}
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold text-primary">
@@ -190,9 +203,7 @@ const UserManagement = () => {
                       </div>
                     </div>
 
-                    {/* Right: avatar + vertically aligned button */}
                     <div className="flex flex-col items-center justify-center gap-4">
-                      {/* Avatar */}
                       <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
                         {singleUser.photoURL ? (
                           <img
@@ -205,7 +216,6 @@ const UserManagement = () => {
                         )}
                       </div>
 
-                      {/* Button exactly under image */}
                       {singleUser.role === "admin" ? (
                         <button
                           onClick={() => handleRemoveAdmin(singleUser)}
