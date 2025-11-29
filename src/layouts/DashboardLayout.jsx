@@ -170,6 +170,17 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">Approve Riders</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to={"assign-rider"}
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                  data-tip="Assign Rider"
+                >
+                  <FaMotorcycle color="green" size={22} />
+
+                  <span className="is-drawer-close:hidden">Assign Rider</span>
+                </NavLink>
+              </li>
               </div>
              }
               <li>
