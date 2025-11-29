@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaUserShield } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
@@ -28,6 +28,7 @@ const StatusBadge = ({ role }) => {
 
 const UserManagement = () => {
   const axiosSecure = useAxiosSecure();
+  const [searchText, setSearchText] = useState("");
 
   const {
     data: users = [],
@@ -36,14 +37,17 @@ const UserManagement = () => {
   } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get(`/users?searchText=${searchText}`);
       return res.data;
     },
   });
 
   const handleMakeAdmin = async (singleUser) => {
     const roleInfo = { role: "admin" };
-    const res = await axiosSecure.patch(`/users/${singleUser._id}/role`, roleInfo);
+    const res = await axiosSecure.patch(
+      `/users/${singleUser._id}/role`,
+      roleInfo
+    );
     if (res.data.modifiedCount) {
       refetch();
       Swal.fire({
@@ -69,7 +73,10 @@ const UserManagement = () => {
     if (!result.isConfirmed) return;
 
     const roleInfo = { role: "user" };
-    const res = await axiosSecure.patch(`/users/${singleUser._id}/role`, roleInfo);
+    const res = await axiosSecure.patch(
+      `/users/${singleUser._id}/role`,
+      roleInfo
+    );
     if (res.data.modifiedCount) {
       refetch();
       Swal.fire({
@@ -101,6 +108,26 @@ const UserManagement = () => {
             {users.length} user{users.length !== 1 && "s"} in the system
           </p>
         </div>
+        <label className="input">
+          <svg
+            className="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input type="search"
+          onChange={(e)=>setSearchText(e.target.value)} className="grow" placeholder="Search" />
+        </label>
 
         {users.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-16 text-center">
