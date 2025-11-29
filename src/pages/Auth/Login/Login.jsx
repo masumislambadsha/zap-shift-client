@@ -7,7 +7,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const [loading, ] = useState(false);
+  const [loading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -155,7 +155,7 @@ const Login = () => {
                                     shadow-lg hover:shadow-2xl
                                     transition-all duration-300
                                     hover:border-[#b0e413] hover:bg-linear-to-r hover:from-[#b0e413]/5 hover:to-primary/5
-                                    active:scale-98"
+                                    active:scale-98 cursor-pointer"
             >
               <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-[#b0e413] to-primary opacity-0 group-hover:opacity-20 transition-opacity"></div>
 
