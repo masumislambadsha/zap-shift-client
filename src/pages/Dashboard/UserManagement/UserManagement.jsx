@@ -43,7 +43,7 @@ const UserManagement = () => {
 
   const handleMakeAdmin = async (singleUser) => {
     const roleInfo = { role: "admin" };
-    const res = await axiosSecure.patch(`/users/${singleUser._id}`, roleInfo);
+    const res = await axiosSecure.patch(`/users/${singleUser._id}/role`, roleInfo);
     if (res.data.modifiedCount) {
       refetch();
       Swal.fire({
@@ -69,7 +69,7 @@ const UserManagement = () => {
     if (!result.isConfirmed) return;
 
     const roleInfo = { role: "user" };
-    const res = await axiosSecure.patch(`/users/${singleUser._id}`, roleInfo);
+    const res = await axiosSecure.patch(`/users/${singleUser._id}/role`, roleInfo);
     if (res.data.modifiedCount) {
       refetch();
       Swal.fire({

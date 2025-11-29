@@ -17,6 +17,7 @@ import PaymentCancel from "../pages/Dashboard/Payments/PaymentCancel";
 import PaymentHistory from "../pages/Dashboard/Payments/PaymentHistory/PaymentHistory";
 import ApproveRider from "../pages/Dashboard/AppproveRider/ApproveRider";
 import UserManagement from "../pages/Dashboard/UserManagement/UserManagement";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ export const router = createBrowserRouter([
             <BeARider />
           </PrivateRoute>
         ),
-        loader: () => fetch("/serviceCenter.json").then((res) => res.json())
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
       },
       {
         path: "/sendAParcel",
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
             <SendAParcel />
           </PrivateRoute>
         ),
-        loader: () => fetch("/serviceCenter.json").then((res) => res.json())
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
       },
       {
         path: "/aboutus",
@@ -71,37 +72,49 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path:"/dashboard",
-    element: <PrivateRoute><DashboardLayout/> </PrivateRoute>,
-    children:[
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />{" "}
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"my-parcels",
-        Component: MyParcels
+        path: "my-parcels",
+        Component: MyParcels,
       },
       {
-        path:"payment/:parcelId",
-        Component: Payments
+        path: "payment/:parcelId",
+        Component: Payments,
       },
       {
-        path:'payment-history',
-        Component: PaymentHistory
+        path: "payment-history",
+        Component: PaymentHistory,
       },
       {
-        path:"payment-success",
-        Component: PaymentSuccess
+        path: "payment-success",
+        Component: PaymentSuccess,
       },
       {
-        path:"payment-cancelled",
-        Component: PaymentCancel
+        path: "payment-cancelled",
+        Component: PaymentCancel,
       },
       {
-      path:"approve-riders",
-      Component: ApproveRider
+        path: "approve-riders",
+        element: (
+          <AdminRoute>
+            <ApproveRider />
+          </AdminRoute>
+        ),
       },
       {
-      path:"user-management",
-      Component: UserManagement
-      }
-    ]
-  }
+        path: "user-management",
+        element: (
+          <AdminRoute>
+            <UserManagement />
+          </AdminRoute>
+        ),
+      },
+    ],
+  },
 ]);
