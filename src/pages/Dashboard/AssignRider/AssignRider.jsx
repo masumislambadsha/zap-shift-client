@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FiEdit, FiEye } from "react-icons/fi";
 import {
@@ -30,9 +30,9 @@ const StatusBadge = ({ status }) => {
 
   return (
     <span
-      className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border ${
-        styles[key] || styles.pending
-      }`}
+    className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border ${
+      styles[key] || styles.pending
+    }`}
     >
       {label}
     </span>
@@ -40,6 +40,7 @@ const StatusBadge = ({ status }) => {
 };
 
 const AssignRider = () => {
+  const [selectedParcel, setSelectedParcel] = useState(null)
   const axiosSecure = useAxiosSecure();
   const riderModalRef = useRef()
   const { data: parcels = [] } = useQuery({
@@ -51,8 +52,17 @@ const AssignRider = () => {
       return res.data;
     },
   });
+  const {data: riders = []} = useQuery({
+    queryKey: ['riders', parcels.senderDistrict, "available"],
+    enabled:!!selectedParcel,
+    queryFn: async () =>{
+      const res = await axiosSecure.get(`/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`)
+      return res.data
+    }
+  })
 
   const openRiderAssignRiderModal = (parcel) =>{
+    setSelectedParcel(parcel);
     riderModalRef.current.showModal()
   }
   return (
@@ -197,7 +207,7 @@ const AssignRider = () => {
       </div>
       <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
+          <h3 className="font-bold text-lg">Riders {riders.length}!</h3>
           <p className="py-4">
             Press ESC key or click the button below to close
           </p>
