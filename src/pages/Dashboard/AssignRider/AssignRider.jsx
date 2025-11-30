@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useRef } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FiEdit, FiEye } from "react-icons/fi";
 import {
@@ -41,7 +41,7 @@ const StatusBadge = ({ status }) => {
 
 const AssignRider = () => {
   const axiosSecure = useAxiosSecure();
-
+  const riderModalRef = useRef()
   const { data: parcels = [] } = useQuery({
     queryKey: ["parcel", "pending-pickup"],
     queryFn: async () => {
@@ -52,6 +52,9 @@ const AssignRider = () => {
     },
   });
 
+  const openRiderAssignRiderModal = (parcel) =>{
+    riderModalRef.current.showModal()
+  }
   return (
     <div>
       <h2 className="text-5xl">Assign Rider {parcels.length}</h2>
@@ -178,7 +181,9 @@ const AssignRider = () => {
                       </div>
 
                       <div className="flex gap-3 md:mr-6">
-                        <button className="btn btn-primary text-secondary">
+                        <button
+                        onClick={()=>openRiderAssignRiderModal(parcel)}
+                        className="btn btn-primary text-secondary">
                           Assign Rider
                         </button>
                       </div>
@@ -190,6 +195,20 @@ const AssignRider = () => {
           )}
         </div>
       </div>
+      <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Press ESC key or click the button below to close
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };

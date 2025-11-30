@@ -144,9 +144,9 @@ const ApproveRider = () => {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                      <div className="grid grid-cols-3 gap-10 space-y-6 text-xs sm:text-sm">
                         <div className="pt-3 border-t border-gray-200">
-                          <p className="text-gray-500 mb-1">Applied on</p>
+                          <p className="text-gray-500 mb-1.5">Applied on</p>
                           <p className="font-medium">
                             {new Date(rider.createdAt).toLocaleDateString(
                               "en-GB"
@@ -154,9 +154,15 @@ const ApproveRider = () => {
                           </p>
                         </div>
                         <div className="pt-3 border-t border-gray-200">
-                          <p className="text-gray-500 mb-1 ml-2">Status</p>
+                          <p className="text-gray-500 mb-2 ml-2">Applicant Status</p>
                           <StatusBadge status={rider.status || "pending"} />
                         </div>
+                        {
+                          rider.workStatus && <div className="pt-3 border-t border-gray-200">
+                          <p className="text-gray-500 mb-2 ml-2">Work Status</p>
+                          <StatusBadge status={rider.workStatus || ""} />
+                        </div>
+                        }
                       </div>
                     </div>
 
@@ -200,6 +206,7 @@ const ApproveRider = () => {
           </div>
         )}
       </div>
+      
     </div>
   );
 };
