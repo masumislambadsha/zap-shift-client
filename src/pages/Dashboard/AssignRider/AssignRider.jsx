@@ -53,7 +53,7 @@ const AssignRider = () => {
     },
   });
   const {data: riders = []} = useQuery({
-    queryKey: ['riders', parcels.senderDistrict, "available"],
+    queryKey: ['riders', selectedParcel?.senderDistrict, "available"],
     enabled:!!selectedParcel,
     queryFn: async () =>{
       const res = await axiosSecure.get(`/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`)
@@ -64,6 +64,15 @@ const AssignRider = () => {
   const openRiderAssignRiderModal = (parcel) =>{
     setSelectedParcel(parcel);
     riderModalRef.current.showModal()
+  }
+  const handleAssignRider = (rider) =>{
+    const riderAssignInfo = {
+      riderId : rider._id,
+      riderEmail : rider.email,
+      riderName : rider.name,
+      parcelId : selectedParcel._id
+    }
+    axiosSecure.patch(``, riderAssignInfo)
   }
   return (
     <div>
@@ -194,7 +203,7 @@ const AssignRider = () => {
                         <button
                         onClick={()=>openRiderAssignRiderModal(parcel)}
                         className="btn btn-primary text-secondary">
-                          Assign Rider
+                          Find Riders
                         </button>
                       </div>
                     </div>
@@ -208,9 +217,31 @@ const AssignRider = () => {
       <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Riders {riders.length}!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <table className="w-full border-collapse border border-gray-300 text-left">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="table-style">#</th>
+              <th className="table-style">Name</th>
+              <th className="table-style">Contact</th>
+              <th className="table-style">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riders.map((rider, index) => (
+              <tr
+                key={rider.transactionId + index}
+                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+              >
+                <td className="table-style">{index + 1}</td>
+                <td className="table-style">{rider.name}</td>
+                <td className="table-style">{rider.email}</td>
+                <td className="table-style">
+                  <button onClick={()=>handleAssignRider(rider)} className="btn btn-primary text-secondary">Assign </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
