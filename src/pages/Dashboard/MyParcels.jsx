@@ -132,8 +132,8 @@ const MyParcels = () => {
               Start sending your first parcel today!
             </p>
             <Link
-              to="/send-parcel"
-              className="mt-8 inline-block btn btn-wide btn-primary text-lg font-bold"
+              to="/sendAParcel"
+              className="mt-8 inline-block btn btn-wide btn-primary text-lg font-bold text-secondary"
             >
               Send a Parcel
             </Link>
