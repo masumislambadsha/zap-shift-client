@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FiEdit, FiEye } from "react-icons/fi";
@@ -53,7 +53,7 @@ const AssignRider = () => {
       return res.data;
     },
   });
-  const { refetch, data: riders = [] } = useQuery({
+  const { data: riders = [] } = useQuery({
     queryKey: ["riders", selectedParcel?.senderDistrict, "available"],
     enabled: !!selectedParcel,
     queryFn: async () => {
@@ -68,6 +68,8 @@ const AssignRider = () => {
     setSelectedParcel(parcel);
     riderModalRef.current.showModal();
   };
+  const queryClient = useQueryClient();
+
   const handleAssignRider = (rider) => {
     const riderAssignInfo = {
       riderId: rider._id,
@@ -75,21 +77,29 @@ const AssignRider = () => {
       riderName: rider.name,
       parcelId: selectedParcel._id,
     };
+
     axiosSecure
       .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
-          refetch();
-          riderModalRef.current.close()
+          // 🔥 Invalidate ALL riders queries
+          queryClient.invalidateQueries({ queryKey: ["riders"] });
+
+          // Optional: also refresh parcels
+          queryClient.invalidateQueries({ queryKey: ["parcel"] });
+
+          riderModalRef.current.close();
+
           Swal.fire({
             title: "Parcel Assigned",
-            text: `Parcel will be delivared by ${rider.name}`,
+            text: `Parcel will be delivered by ${rider.name}`,
             icon: "success",
             timer: 2500,
           });
         }
       });
   };
+
   return (
     <div>
       <h2 className="text-5xl">Assign Rider {parcels.length}</h2>
