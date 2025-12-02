@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router";
 import { TbCoinTakaFilled } from "react-icons/tb";
+import Swal from "sweetalert2";
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -30,9 +31,9 @@ const StatusBadge = ({ status }) => {
 
   return (
     <span
-    className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border ${
-      styles[key] || styles.pending
-    }`}
+      className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border ${
+        styles[key] || styles.pending
+      }`}
     >
       {label}
     </span>
@@ -40,9 +41,9 @@ const StatusBadge = ({ status }) => {
 };
 
 const AssignRider = () => {
-  const [selectedParcel, setSelectedParcel] = useState(null)
+  const [selectedParcel, setSelectedParcel] = useState(null);
   const axiosSecure = useAxiosSecure();
-  const riderModalRef = useRef()
+  const riderModalRef = useRef();
   const { data: parcels = [] } = useQuery({
     queryKey: ["parcel", "pending-pickup"],
     queryFn: async () => {
@@ -52,28 +53,43 @@ const AssignRider = () => {
       return res.data;
     },
   });
-  const {data: riders = []} = useQuery({
-    queryKey: ['riders', selectedParcel?.senderDistrict, "available"],
-    enabled:!!selectedParcel,
-    queryFn: async () =>{
-      const res = await axiosSecure.get(`/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`)
-      return res.data
-    }
-  })
+  const { refetch, data: riders = [] } = useQuery({
+    queryKey: ["riders", selectedParcel?.senderDistrict, "available"],
+    enabled: !!selectedParcel,
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/riders?status=approved&district=${selectedParcel.senderDistrict}&workStatus=available`
+      );
+      return res.data;
+    },
+  });
 
-  const openRiderAssignRiderModal = (parcel) =>{
+  const openRiderAssignRiderModal = (parcel) => {
     setSelectedParcel(parcel);
-    riderModalRef.current.showModal()
-  }
-  const handleAssignRider = (rider) =>{
+    riderModalRef.current.showModal();
+  };
+  const handleAssignRider = (rider) => {
     const riderAssignInfo = {
-      riderId : rider._id,
-      riderEmail : rider.email,
-      riderName : rider.name,
-      parcelId : selectedParcel._id
-    }
-    axiosSecure.patch(``, riderAssignInfo)
-  }
+      riderId: rider._id,
+      riderEmail: rider.email,
+      riderName: rider.name,
+      parcelId: selectedParcel._id,
+    };
+    axiosSecure
+      .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          refetch();
+          riderModalRef.current.close()
+          Swal.fire({
+            title: "Parcel Assigned",
+            text: `Parcel will be delivared by ${rider.name}`,
+            icon: "success",
+            timer: 2500,
+          });
+        }
+      });
+  };
   return (
     <div>
       <h2 className="text-5xl">Assign Rider {parcels.length}</h2>
@@ -201,8 +217,9 @@ const AssignRider = () => {
 
                       <div className="flex gap-3 md:mr-6">
                         <button
-                        onClick={()=>openRiderAssignRiderModal(parcel)}
-                        className="btn btn-primary text-secondary">
+                          onClick={() => openRiderAssignRiderModal(parcel)}
+                          className="btn btn-primary text-secondary"
+                        >
                           Find Riders
                         </button>
                       </div>
@@ -214,34 +231,42 @@ const AssignRider = () => {
           )}
         </div>
       </div>
-      <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
+      <dialog
+        ref={riderModalRef}
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <h3 className="font-bold text-lg">Riders {riders.length}!</h3>
           <table className="w-full border-collapse border border-gray-300 text-left">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="table-style">#</th>
-              <th className="table-style">Name</th>
-              <th className="table-style">Contact</th>
-              <th className="table-style">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {riders.map((rider, index) => (
-              <tr
-                key={rider.transactionId + index}
-                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-              >
-                <td className="table-style">{index + 1}</td>
-                <td className="table-style">{rider.name}</td>
-                <td className="table-style">{rider.email}</td>
-                <td className="table-style">
-                  <button onClick={()=>handleAssignRider(rider)} className="btn btn-primary text-secondary">Assign </button>
-                </td>
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="table-style">#</th>
+                <th className="table-style">Name</th>
+                <th className="table-style">Contact</th>
+                <th className="table-style">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {riders.map((rider, index) => (
+                <tr
+                  key={rider.transactionId + index}
+                  className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                >
+                  <td className="table-style">{index + 1}</td>
+                  <td className="table-style">{rider.name}</td>
+                  <td className="table-style">{rider.email}</td>
+                  <td className="table-style">
+                    <button
+                      onClick={() => handleAssignRider(rider)}
+                      className="btn btn-primary text-secondary"
+                    >
+                      Assign{" "}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
