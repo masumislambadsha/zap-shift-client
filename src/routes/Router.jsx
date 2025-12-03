@@ -130,9 +130,11 @@ export const router = createBrowserRouter([
       // riders route
       {
         path: "assigned-deliveries",
-        element:   <RiderRoute>
+        element: (
+          <RiderRoute>
             <AssignedDeliveries />
-          </RiderRoute>,
+          </RiderRoute>
+        ),
       },
     ],
   },
