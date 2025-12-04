@@ -32,7 +32,11 @@ const AssignedDeliveries = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  const { data: parcels = [], isLoading } = useQuery({
+  const {
+    data: parcels = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["assigned-parcels", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
@@ -73,10 +77,24 @@ const AssignedDeliveries = () => {
       confirmButtonText: "Yes, Accept",
       cancelButtonText: "Cancel",
       confirmButtonColor: "#16a34a",
-    }).then((res) =>
-      res.isConfirmed &&
-      mutation.mutate({ parcelId: parcel._id, action: "accepted" })
-    );
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const statusInfo = { deliverStatus: "rider_ariving" };
+        axiosSecure
+          .patch(`/parcels/${parcel._id}/status`, statusInfo)
+          .then((res) => {
+            if (res.data.modifiedCount) {
+              refetch();
+             Swal.fire({
+                     title: "Parcel Accepted",
+                     text: `Deliver and Update Your Status About ${parcel.parcelName}!!`,
+                     icon: "success",
+                     timer: 2500,
+                   });
+            }
+          });
+      }
+    });
   };
 
   const handleReject = (parcel) => {
@@ -87,9 +105,10 @@ const AssignedDeliveries = () => {
       showCancelButton: true,
       confirmButtonText: "Yes, Reject",
       confirmButtonColor: "#dc2626",
-    }).then((res) =>
-      res.isConfirmed &&
-      mutation.mutate({ parcelId: parcel._id, action: "rejected" })
+    }).then(
+      (res) =>
+        res.isConfirmed &&
+        mutation.mutate({ parcelId: parcel._id, action: "rejected" })
     );
   };
 
@@ -215,11 +234,13 @@ const AssignedDeliveries = () => {
                     </div>
                   </div>
                   <div className="flex lg:flex-col justify-center items-center gap-4">
-                    <div className="lg:w-28 h-28 bg-primary/5 border-2 border-dashed border-primary/30 rounded-2xl flex items-center justify-center text-3xl text-primary/50 w-full">
+                    <div className={`lg:w-28 h-28 bg-primary/5 border-2 border-dashed border-primary/30 rounded-2xl flex items-center justify-center text-3xl text-primary/50
+                      ${parcel.deliverStatus !=="driver_assigned" ? " w-1/2" : 'w-full'}`}>
                       📦
                     </div>
 
-                    <div className="w-full flex gap-3">
+                    {
+                      parcel.deliverStatus ==="driver_assigned" ? <div className="w-full flex gap-3">
                       <button
                         onClick={() => handleReject(parcel)}
                         disabled={mutation.isPending}
@@ -237,7 +258,15 @@ const AssignedDeliveries = () => {
                         <FaCheckCircle className="text-base" />
                         Accept
                       </button>
-                    </div>
+                    </div> : <button
+                        onClick={() => handleAccept(parcel)}
+                        disabled
+                        className="w-full text-secondary font-semibold py-8 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-not-allowed bg-[#a1d600]"
+                      >
+                        <FaCheckCircle className="text-base" />
+                        Parcel Already Accpeted
+                      </button>
+                    }
                   </div>
                 </div>
               </div>
