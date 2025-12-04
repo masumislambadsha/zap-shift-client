@@ -235,7 +235,7 @@ const AssignedDeliveries = () => {
                   </div>
                   <div className="flex lg:flex-col justify-center items-center gap-4">
                     <div className={`lg:w-28 h-28 bg-primary/5 border-2 border-dashed border-primary/30 rounded-2xl flex items-center justify-center text-3xl text-primary/50
-                      ${parcel.deliverStatus !=="driver_assigned" ? " w-1/2" : 'w-full'}`}>
+                      w-full`}>
                       📦
                     </div>
 
@@ -258,14 +258,25 @@ const AssignedDeliveries = () => {
                         <FaCheckCircle className="text-base" />
                         Accept
                       </button>
-                    </div> : <button
+                    </div> :  <div className="w-full flex gap-3">
+                      <button
+                        onClick={() => handleReject(parcel)}
+                        disabled={mutation.isPending}
+                        className="flex-1 bg-blue-500 text-white hover:bg-blue-800 font-semibold py-2.5 rounded-lg shadow-sm flex items-center justify-center gap-2 text-sm transition cursor-pointer"
+                      >
+                        <FaTimesCircle className="text-base" />
+                        Mark As Delivered
+                      </button>
+
+                      <button
                         onClick={() => handleAccept(parcel)}
-                        disabled
-                        className="w-full text-secondary font-semibold py-8 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-not-allowed bg-[#a1d600]"
+                        disabled={mutation.isPending}
+                        className="flex-1 bg-teal-500 text-white font-semibold py-2.5 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-pointer hover:bg-teal-700"
                       >
                         <FaCheckCircle className="text-base" />
-                        Parcel Already Accpeted
+                        Mark As Picked Up
                       </button>
+                    </div>
                     }
                   </div>
                 </div>
