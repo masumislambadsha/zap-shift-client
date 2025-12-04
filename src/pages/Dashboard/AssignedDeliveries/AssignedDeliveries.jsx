@@ -214,8 +214,6 @@ const AssignedDeliveries = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Right: Action Buttons */}
                   <div className="flex lg:flex-col justify-center items-center gap-4">
                     <div className="lg:w-28 h-28 bg-primary/5 border-2 border-dashed border-primary/30 rounded-2xl flex items-center justify-center text-3xl text-primary/50 w-full">
                       📦
