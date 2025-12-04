@@ -2,12 +2,18 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import {
+  FaBoxOpen,
+  FaCheckCircle,
+  FaClipboardCheck,
+  FaTimesCircle,
+} from "react-icons/fa";
 
 const StatusBadge = ({ status }) => {
   const badgeStyles = {
     driver_assigned: "bg-primary/10 text-primary border-primary/30",
     "on the way": "bg-primary/10 text-primary border-primary/30",
+    picked_up: "bg-primary/10 text-primary border-primary/30",
     delivered: "bg-primary text-secondary border-primary",
   };
 
@@ -68,29 +74,51 @@ const AssignedDeliveries = () => {
     },
   });
 
-  const handleAccept = (parcel) => {
+  const handleStatusUpdate = (parcel, status) => {
     Swal.fire({
-      title: "Accept Delivery?",
+      title:
+        status === "picked_up"
+          ? "Parcel Picked Up?"
+          : status === "driver_assigned"
+          ? "Accept Parcel"
+          : status === "delivered"
+          ? "Parcel Delivered?"
+          : "",
       html: `<strong>${parcel.parcelName}</strong><br/>${parcel.senderDistrict} to ${parcel.reciverDistrict}`,
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Yes, Accept",
-      cancelButtonText: "Cancel",
-      confirmButtonColor: "#16a34a",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "No",
+      cancelButtonColor: "red",
+      confirmButtonColor:
+        status === "delivered"
+          ? "#3b82f6"
+          : status === "picked_up"
+          ? "#14b8a6"
+          : status === "rider_ariving"
+          ? "#7ca500"
+          : "#22c55e",
     }).then((result) => {
       if (result.isConfirmed) {
-        const statusInfo = { deliverStatus: "rider_ariving" };
+        const statusInfo = { deliverStatus: status };
         axiosSecure
           .patch(`/parcels/${parcel._id}/status`, statusInfo)
           .then((res) => {
             if (res.data.modifiedCount) {
               refetch();
-             Swal.fire({
-                     title: "Parcel Accepted",
-                     text: `Deliver and Update Your Status About ${parcel.parcelName}!!`,
-                     icon: "success",
-                     timer: 2500,
-                   });
+              Swal.fire({
+                title:
+                  status === "picked_up"
+                    ? "Parcel Picked Up"
+                    : status === "driver_assigned"
+                    ? "Parcel Accepted"
+                    : status === "delivered"
+                    ? "Parcel Delivered"
+                    : "",
+                text: `Deliver and update your status for ${parcel.parcelName}!`,
+                icon: "success",
+                timer: 2500,
+              });
             }
           });
       }
@@ -176,7 +204,7 @@ const AssignedDeliveries = () => {
 
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <p className="text-xs font-medium text-gray-500 mb-1">
+                        <p className="text-xs font-medium text-[#7ca500] mb-1">
                           Pickup From
                         </p>
                         <p className="font-semibold text-base">
@@ -231,53 +259,80 @@ const AssignedDeliveries = () => {
                           {parcel.trackingId}
                         </span>
                       </div>
+                      <div>
+                        <span className="text-gray-500">Status: </span>
+                        <span className="font-mono font-semibold text-secondary px-2 py-1 rounded-2xl bg-primary">
+                          {parcel.deliverStatus === "picked_up"
+                            ? "Picked Up"
+                            : parcel.deliverStatus === "driver_assigned"
+                            ? "Parcel Accepted"
+                            : parcel.deliverStatus === "delivered"
+                            ? "Delivered"
+                            : parcel.deliverStatus || ""}
+                        </span>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Right: actions */}
                   <div className="flex lg:flex-col justify-center items-center gap-4">
-                    <div className={`lg:w-28 h-28 bg-primary/5 border-2 border-dashed border-primary/30 rounded-2xl flex items-center justify-center text-3xl text-primary/50
-                      w-full`}>
+                    <div className="lg:w-28 h-28 bg-primary/5 border-2 border-dashed border-primary/30 rounded-2xl flex items-center justify-center text-3xl text-primary/50 w-full">
                       📦
                     </div>
 
-                    {
-                      parcel.deliverStatus ==="driver_assigned" ? <div className="w-full flex gap-3">
-                      <button
-                        onClick={() => handleReject(parcel)}
-                        disabled={mutation.isPending}
-                        className="flex-1 bg-red-500 text-white hover:bg-red-600 font-semibold py-2.5 rounded-lg shadow-sm flex items-center justify-center gap-2 text-sm transition cursor-pointer"
-                      >
-                        <FaTimesCircle className="text-base" />
-                        Reject
-                      </button>
+                    {parcel.deliverStatus === "driver_assigned" ? (
+                      <div className="w-full flex gap-3">
+                        <button
+                          onClick={() => handleReject(parcel)}
+                          disabled={mutation.isPending}
+                          className="flex-1 bg-red-500 text-white hover:bg-red-600 font-semibold py-2.5 rounded-lg shadow-sm flex items-center justify-center gap-2 text-sm transition cursor-pointer"
+                        >
+                          <FaTimesCircle className="text-base" />
+                          Reject
+                        </button>
 
-                      <button
-                        onClick={() => handleAccept(parcel)}
-                        disabled={mutation.isPending}
-                        className="flex-1 bg-primary text-secondary font-semibold py-2.5 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-pointer hover:bg-[#a1d600]"
-                      >
-                        <FaCheckCircle className="text-base" />
-                        Accept
-                      </button>
-                    </div> :  <div className="w-full flex gap-3">
-                      <button
-                        onClick={() => handleReject(parcel)}
-                        disabled={mutation.isPending}
-                        className="flex-1 bg-blue-500 text-white hover:bg-blue-800 font-semibold py-2.5 rounded-lg shadow-sm flex items-center justify-center gap-2 text-sm transition cursor-pointer"
-                      >
-                        <FaTimesCircle className="text-base" />
-                        Mark As Delivered
-                      </button>
+                        <button
+                          onClick={() =>
+                            handleStatusUpdate(parcel, "rider_ariving")
+                          }
+                          disabled={mutation.isPending}
+                          className="flex-1 bg-primary text-secondary font-semibold py-2.5 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-pointer hover:bg-[#a1d600]"
+                        >
+                          <FaCheckCircle className="text-base" />
+                          Accept
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="w-full flex gap-3">
+                        <button
+                          onClick={() =>
+                            handleStatusUpdate(parcel, "delivered")
+                          }
+                          disabled={
+                            mutation.isPending ||
+                            parcel.deliverStatus !== "picked_up"
+                          }
+                          className="flex-1 bg-blue-500 text-white hover:bg-blue-800 font-semibold py-2.5 rounded-lg shadow-sm flex items-center justify-center gap-2 text-sm transition cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <FaClipboardCheck className="text-base" />
+                          Mark As Delivered
+                        </button>
 
-                      <button
-                        onClick={() => handleAccept(parcel)}
-                        disabled={mutation.isPending}
-                        className="flex-1 bg-teal-500 text-white font-semibold py-2.5 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-pointer hover:bg-teal-700"
-                      >
-                        <FaCheckCircle className="text-base" />
-                        Mark As Picked Up
-                      </button>
-                    </div>
-                    }
+                        <button
+                          onClick={() =>
+                            handleStatusUpdate(parcel, "picked_up")
+                          }
+                          disabled={
+                            mutation.isPending ||
+                            parcel.deliverStatus === "picked_up"
+                          }
+                          className="flex-1 bg-teal-500 text-white font-semibold py-2.5 rounded-lg shadow-md flex items-center justify-center gap-2 text-sm transition cursor-pointer hover:bg-teal-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <FaBoxOpen className="text-base" />
+                          Mark As Picked Up
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
