@@ -124,7 +124,7 @@ const SendAParcel = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-3 space-y-10">
             {/* Parcel Type */}
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
               <h3 className="text-xl font-semibold text-gray-800 mb-5">

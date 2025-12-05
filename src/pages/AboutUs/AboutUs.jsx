@@ -47,31 +47,43 @@ export default function AboutUs() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <section className="about-us bg-white rounded-2xl p-10 shadow max-w-5xl mx-auto mt-10">
-      <h2 className="text-3xl font-bold text-green-900 mb-2">About Us</h2>
-      <p className="text-xs text-gray-600 mb-8 leading-4">
-        Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.
+    <section className="about-us bg-white rounded-2xl p-4 sm:p-6 lg:p-10 shadow max-w-5xl mx-auto mt-6 sm:mt-10">
+      <h2 className="text-2xl sm:text-3xl font-bold text-green-900 mb-2">
+        About Us
+      </h2>
+      <p className="text-xs sm:text-sm text-gray-600 mb-6 sm:mb-8 leading-5 sm:leading-6">
+        Enjoy fast, reliable parcel delivery with real-time tracking and zero
+        hassle. From personal packages to business shipments — we deliver on
+        time, every time.
       </p>
-      <nav className="flex gap-8 mb-6 border-b pb-2 text-gray-600 font-semibold">
+
+      {/* Tabs */}
+      <nav className="flex gap-4 sm:gap-8 mb-4 sm:mb-6 border-b pb-2 text-gray-600 font-semibold overflow-x-auto no-scrollbar">
         {tabs.map((tab, idx) => (
           <button
             key={tab.name}
+            type="button"
+            onClick={() => setActiveTab(idx)}
             className={
               idx === activeTab
-                ? "text-green-700 font-semibold border-b-4 border-lime-400 pb-2"
-                : "hover:text-green-700 transition"
+                ? "whitespace-nowrap text-green-700 border-b-4 border-lime-400 pb-2 text-sm sm:text-base"
+                : "whitespace-nowrap hover:text-green-700 transition text-sm sm:text-base"
             }
-            onClick={() => setActiveTab(idx)}
-            type="button"
           >
             {tab.name}
           </button>
         ))}
       </nav>
-      <div className="text-sm text-gray-700 leading-relaxed space-y-6 whitespace-pre-line">
+
+      {/* Content */}
+      <div className="text-sm sm:text-base text-gray-700 leading-relaxed space-y-4 sm:space-y-6 whitespace-pre-line">
         {tabs[activeTab].content.split("\n").map(
           (para, i) =>
-            para.trim() && <p key={i}>{para.trim()}</p>
+            para.trim() && (
+              <p key={i} className="text-justify">
+                {para.trim()}
+              </p>
+            )
         )}
       </div>
     </section>

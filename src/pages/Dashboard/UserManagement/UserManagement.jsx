@@ -175,7 +175,7 @@ const UserManagement = () => {
                 <div className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                      <div className="flex items-center gap-4">
+                      <div className="flex md:justify-start justify-center items-center gap-4">
                         <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold text-primary">
                           {singleUser.displayName?.charAt(0).toUpperCase()}
                         </div>
@@ -189,7 +189,7 @@ const UserManagement = () => {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                      <div className="grid grid-cols-2 gap-4 text-xs items-center sm:text-sm">
                         <div>
                           <span className="text-gray-500">Role</span>
                           <div className="mt-2">

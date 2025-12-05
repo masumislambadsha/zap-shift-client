@@ -2,15 +2,19 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { CiDeliveryTruck } from "react-icons/ci";
 import useAuth from "../Hooks/useAuth";
-import { FaRegCreditCard, FaTasks, FaUser } from "react-icons/fa";
+import {
+  FaClipboardCheck,
+  FaRegCreditCard,
+  FaTasks,
+  FaUser,
+} from "react-icons/fa";
 import RiderCard from "../assets/ApproveRiderButton";
 import { FaMotorcycle } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
 import { RiEBike2Fill } from "react-icons/ri";
 
-
 const DashboardLayout = () => {
-  const {role} = useRole();
+  const { role } = useRole();
   const { user } = useAuth();
   const navItems = [
     { to: "/", label: "Services" },
@@ -81,7 +85,7 @@ const DashboardLayout = () => {
             <div></div>
           </nav>
           {/* Page content here */}
-          <main className="grow p-6 bg-white">
+          <main className="grow md:p-6 bg-white">
             <Outlet />
           </main>
         </div>
@@ -146,64 +150,84 @@ const DashboardLayout = () => {
                 </NavLink>
               </li>
               {/* rider role only */}
-                {
-                  role ==="rider" && <div>
-                 <li>
-                <NavLink
-                  to={"assigned-deliveries"}
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
-                  data-tip="Assigned-Deliveries"
-                >
-                  <FaTasks color="teal" size={17} />
+              {role === "rider" && (
+                <div>
+                  <li>
+                    <NavLink
+                      to={"assigned-deliveries"}
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                      data-tip="Assigned-Deliveries"
+                    >
+                      <FaTasks color="teal" size={17} />
 
-                  <span className="is-drawer-close:hidden">
-                    Assigned-Deliveries
-                  </span>
-                </NavLink>
-              </li>
-              </div>
-                }
+                      <span className="is-drawer-close:hidden">
+                        Assigned-Deliveries
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to={"delivered-parcels"}
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                      data-tip="Delivered-Parcels"
+                    >
+                      <FaClipboardCheck
+                        color="teal"
+                        size={20}
+                        className="-ml-0.5"
+                      />
+                      <span className="is-drawer-close:hidden">
+                        Delivered-Parcels
+                      </span>
+                    </NavLink>
+                  </li>
+                </div>
+              )}
 
-            {/* admin role only */}
-             {
-              role === "admin" && <div>
-                 <li>
-                <NavLink
-                  to={"user-management"}
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
-                  data-tip="User-Management"
-                >
-                  <FaUser color="teal" size={20} />
+              {/* admin role only */}
+              {role === "admin" && (
+                <div>
+                  <li>
+                    <NavLink
+                      to={"user-management"}
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                      data-tip="User-Management"
+                    >
+                      <FaUser color="teal" size={20} />
 
-                  <span className="is-drawer-close:hidden">
-                    User-Management
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"approve-riders"}
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
-                  data-tip="Approve Riders"
-                >
-                  <FaMotorcycle color="red" size={22} />
+                      <span className="is-drawer-close:hidden">
+                        User-Management
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to={"approve-riders"}
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                      data-tip="Approve Riders"
+                    >
+                      <FaMotorcycle color="red" size={22} />
 
-                  <span className="is-drawer-close:hidden">Approve Riders</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"assign-rider"}
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
-                  data-tip="Assign Rider"
-                >
-                  <RiEBike2Fill  color="green" size={22} />
+                      <span className="is-drawer-close:hidden">
+                        Approve Riders
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to={"assign-rider"}
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded"
+                      data-tip="Assign Rider"
+                    >
+                      <RiEBike2Fill color="green" size={22} />
 
-                  <span className="is-drawer-close:hidden">Assign Rider</span>
-                </NavLink>
-              </li>
-              </div>
-             }
+                      <span className="is-drawer-close:hidden">
+                        Assign Rider
+                      </span>
+                    </NavLink>
+                  </li>
+                </div>
+              )}
               <li>
                 <button
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right px-4 py-3 hover:bg-gray-100 flex items-center gap-3 rounded w-full text-left"
