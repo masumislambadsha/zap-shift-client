@@ -216,7 +216,7 @@ const UserManagement = () => {
                             src={singleUser.photoURL}
                             alt={singleUser.displayName || "User"}
                             className="w-full h-full object-cover rounded-lg"
-                          />
+                        />
                         ) : (
                           <span className="text-3xl text-gray-400">👤</span>
                         )}

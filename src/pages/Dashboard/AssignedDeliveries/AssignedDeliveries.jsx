@@ -100,7 +100,10 @@ const AssignedDeliveries = () => {
           : "#22c55e",
     }).then((result) => {
       if (result.isConfirmed) {
-        const statusInfo = { deliverStatus: status };
+        const statusInfo = {
+          deliverStatus: status,
+          riderId: parcel.riderId,
+        };
         axiosSecure
           .patch(`/parcels/${parcel._id}/status`, statusInfo)
           .then((res) => {
@@ -265,7 +268,9 @@ const AssignedDeliveries = () => {
                           {parcel.deliverStatus === "picked_up"
                             ? "Picked Up"
                             : parcel.deliverStatus === "driver_assigned"
-                            ? "Parcel Accepted"
+                            ? "Delivery Assigned"
+                            : parcel.deliverStatus === "rider_ariving"
+                            ? "Rider On The Way"
                             : parcel.deliverStatus === "delivered"
                             ? "Delivered"
                             : parcel.deliverStatus || ""}
