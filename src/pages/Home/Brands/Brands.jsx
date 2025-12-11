@@ -14,8 +14,9 @@ const Brands = () => {
     <div className="mt-12">
       <Marquee speed={120} linear={false}>
         {brands.map((logo, ind) => (
-          <div key={ind} className="mx-8">
+          <div key={ind} className="mx-8 mn">
             <img src={logo} alt="" className="h-6" />
+
           </div>
         ))}
       </Marquee>
