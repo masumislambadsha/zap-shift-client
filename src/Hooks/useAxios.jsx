@@ -5,7 +5,7 @@ baseURL: "http://localhost:3000",
 });
 
 const useAxios = () => {
-  return axiosInstance;
+return axiosInstance;
 };
 
 export default useAxios;

@@ -5,124 +5,53 @@ import useAxios from "../../../Hooks/useAxios";
 
 const TrackParcel = () => {
   const { trackingId } = useParams();
+  const axiosInstance = useAxios();
 
-  const {data : trackings = []} =  useQuery({
-    queryKey:["tracking", trackingId],
-    queryFn: async () =>{
-      const axiosInstance = useAxios;
-      const res = await axiosInstance.get(`/trackings/${trackingId}`)
-      return res.data
-    }
-  })
+  const { data: trackings = [] } = useQuery({
+    queryKey: ["tracking", trackingId],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/trackings/${trackingId}/logs`);
+      return res.data;
+    },
+  });
+
   return (
-    <div>
-      <h2 className="text-4xl text-secondary font-semibold my-10 text-center">
-        Track Your Parcel: {trackingId}{" "}
-      </h2>
+  <div className="max-w-4xl mx-auto mt-10 bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+  <h3 className="text-2xl font-bold text-gray-800 text-center mb-2">
+    Parcel Activity
+  </h3>
+  <p className="text-center text-sm text-gray-500 mb-8">
+    Latest updates for your shipment
+  </p>
 
-      <ul className="timeline timeline-vertical">
-        <li>
-          <div className="timeline-start">1984</div>
-          <div className="timeline-middle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                clipRule="evenodd"
-              />
-            </svg>
+  <ul className="timeline timeline-vertical">
+    {trackings.map((log, idx) => (
+      <li key={log._id}>
+        {idx !== 0 && <hr />}
+        <div className="timeline-start text-sm text-gray-500">
+          {new Date(log.createdAt).toLocaleString("en-GB")}
+        </div>
+        <div className="timeline-middle">
+          <span className="bg-primary/20 flex items-center justify-center rounded-full w-5 h-5">
+            <span className="badge badge-primary w-3 h-3 rounded-full p-0"></span>
+          </span>
+        </div>
+        <div className="timeline-end">
+          <div className="timeline-box bg-gray-50 border border-gray-200">
+            <p className="text-sm font-semibold text-gray-800">
+              {log.status.replace("_", " ")}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              {log.details}
+            </p>
           </div>
-          <div className="timeline-end timeline-box">
-            First Macintosh computer
-          </div>
-          <hr />
-        </li>
-        <li>
-          <hr />
-          <div className="timeline-start">1998</div>
-          <div className="timeline-middle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          <div className="timeline-end timeline-box">iMac</div>
-          <hr />
-        </li>
-        <li>
-          <hr />
-          <div className="timeline-start">2001</div>
-          <div className="timeline-middle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          <div className="timeline-end timeline-box">iPod</div>
-          <hr />
-        </li>
-        <li>
-          <hr />
-          <div className="timeline-start">2007</div>
-          <div className="timeline-middle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          <div className="timeline-end timeline-box">iPhone</div>
-          <hr />
-        </li>
-        <li>
-          <hr />
-          <div className="timeline-start">2015</div>
-          <div className="timeline-middle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          <div className="timeline-end timeline-box">Apple Watch</div>
-        </li>
-      </ul>
-    </div>
+        </div>
+        <hr />
+      </li>
+    ))}
+  </ul>
+</div>
+
   );
 };
 
