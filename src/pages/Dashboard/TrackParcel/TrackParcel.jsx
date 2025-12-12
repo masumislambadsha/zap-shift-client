@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router";
+import useAxios from "../../../Hooks/useAxios";
 
 const TrackParcel = () => {
   const { trackingId } = useParams();
 
-  const {} =  useQuery({
+  const {data : trackings = []} =  useQuery({
     queryKey:["tracking", trackingId],
-    queryFn: () =>{
-      
+    queryFn: async () =>{
+      const axiosInstance = useAxios;
+      const res = await axiosInstance.get(`/trackings/${trackingId}`)
+      return res.data
     }
   })
   return (
