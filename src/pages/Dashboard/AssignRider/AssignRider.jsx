@@ -76,16 +76,15 @@ const AssignRider = () => {
       riderEmail: rider.email,
       riderName: rider.name,
       parcelId: selectedParcel._id,
+      trackingId : selectedParcel.trackingId
     };
 
     axiosSecure
       .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
-          // 🔥 Invalidate ALL riders queries
           queryClient.invalidateQueries({ queryKey: ["riders"] });
 
-          // Optional: also refresh parcels
           queryClient.invalidateQueries({ queryKey: ["parcel"] });
 
           riderModalRef.current.close();

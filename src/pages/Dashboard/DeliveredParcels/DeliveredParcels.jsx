@@ -2,14 +2,6 @@ import React from "react";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import Swal from "sweetalert2";
-import {
-  FaBoxOpen,
-  FaCheckCircle,
-  FaClipboardCheck,
-  FaTimesCircle,
-} from "react-icons/fa";
-import LoadingSpinner from "../../../Components/Spinner/LoadingSpinner";
 
 const StatusBadge = ({ status }) => {
   const badgeStyles = {
@@ -172,7 +164,7 @@ const DeliveredParcels = () => {
                         <span className="font-bold text-secondary px-2 py-1 rounded-2xl bg-primary">
                           {calculatePayout(parcel)} BDT
                         </span>
-                      </div>  
+                      </div>
                       <div>
                         <span className="text-gray-500">Tracking: </span>
                         <span className="font-mono font-semibold text-secondary px-2 py-1 rounded-2xl bg-primary">

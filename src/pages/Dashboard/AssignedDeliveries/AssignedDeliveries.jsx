@@ -103,6 +103,7 @@ const AssignedDeliveries = () => {
         const statusInfo = {
           deliverStatus: status,
           riderId: parcel.riderId,
+          trackingId: parcel.trackingId
         };
         axiosSecure
           .patch(`/parcels/${parcel._id}/status`, statusInfo)
