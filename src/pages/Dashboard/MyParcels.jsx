@@ -168,7 +168,7 @@ const MyParcels = () => {
 
                 <div className="p-8">
                   <div className="grid md:grid-cols-3 gap-8 mb-8">
-                    {/* From */}
+           
                     <div>
                       <h4 className="font-semibold text-gray-600 flex items-center gap-2">
                         From
@@ -191,8 +191,6 @@ const MyParcels = () => {
                         {parcel.reciverDistrict}, {parcel.reciverRegion}
                       </p>
                     </div>
-
-                    {/* Price & Info */}
                     <div className="text-right md:text-left">
                       <p className="text-sm text-gray-500">Total Cost</p>
                       <p className="text-3xl font-bold text-secondary flex items-center ">
@@ -208,10 +206,10 @@ const MyParcels = () => {
                     </div>
                   </div>
 
-                  {/* Status & Actions */}
+
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pt-6 border-t border-gray-200">
                     <div className="flex flex-wrap gap-6">
-                      {/* Payment Status */}
+
                       <div>
                         <p className="text-sm text-gray-500 ">Payment</p>
                         {parcel.paymentStatus === "paid" ? (

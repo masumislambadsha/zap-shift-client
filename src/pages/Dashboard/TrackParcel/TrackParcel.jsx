@@ -7,7 +7,7 @@ const TrackParcel = () => {
   })
   return (
     <div>
-
+      
     </div>
   );
 };
