@@ -160,15 +160,16 @@ const MyParcels = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-xs opacity-75">Tracking ID</p>
-                    <p className="font-mono text-lg font-bold">
-                      {parcel._id.slice(-8).toUpperCase()}
-                    </p>
+                    <Link to={`/track-parcel/${parcel.trackingId}`}>
+                      <p className="font-mono text-lg font-bold">
+                        {parcel.trackingId}
+                      </p>
+                    </Link>
                   </div>
                 </div>
 
                 <div className="p-8">
                   <div className="grid md:grid-cols-3 gap-8 mb-8">
-           
                     <div>
                       <h4 className="font-semibold text-gray-600 flex items-center gap-2">
                         From
@@ -206,10 +207,8 @@ const MyParcels = () => {
                     </div>
                   </div>
 
-
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pt-6 border-t border-gray-200">
                     <div className="flex flex-wrap gap-6">
-
                       <div>
                         <p className="text-sm text-gray-500 ">Payment</p>
                         {parcel.paymentStatus === "paid" ? (
