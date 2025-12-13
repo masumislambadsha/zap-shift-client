@@ -80,6 +80,7 @@ const SendAParcel = () => {
           cost,
           status: "pending",
           bookingDate: new Date(),
+
         };
 
         axiosSecure
