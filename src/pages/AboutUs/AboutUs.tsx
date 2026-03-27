@@ -83,7 +83,7 @@ export default function AboutUs() {
               <p key={i} className="text-justify">
                 {para.trim()}
               </p>
-            )
+            ),
         )}
       </div>
     </section>

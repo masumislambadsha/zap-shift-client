@@ -18,7 +18,9 @@ const Coverage = () => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const location = (e.target as any).location.value;
-    const district = serviceCenters.find((c: ServiceCenter) => c.district.toLowerCase().includes(location.toLowerCase()));
+    const district = serviceCenters.find((c: ServiceCenter) =>
+      c.district.toLowerCase().includes(location.toLowerCase()),
+    );
     if (district) {
       const coord: [number, number] = [district.latitude, district.longitude];
       mapRef.current?.flyTo(coord, 10);
@@ -33,25 +35,29 @@ const Coverage = () => {
       <div>
         <form onSubmit={handleSearch}>
           <label className="input">
-          <svg
-            className="h-[1em] opacity-50"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2.5"
-              fill="none"
-              stroke="currentColor"
+            <svg
+              className="h-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
             >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </g>
-          </svg>
-          <input type="search" className="grow" placeholder="Search"
-          name="location" />
-        </label>
+              <g
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg>
+            <input
+              type="search"
+              className="grow"
+              placeholder="Search"
+              name="location"
+            />
+          </label>
         </form>
       </div>
       <div className="w-full h-100 mx-auto">

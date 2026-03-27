@@ -37,7 +37,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     return signOut(auth);
   };
-  const updateUserProfile = (profile: { displayName?: string; photoURL?: string }) => {
+  const updateUserProfile = (profile: {
+    displayName?: string;
+    photoURL?: string;
+  }) => {
     return updateProfile(auth.currentUser!, profile);
   };
 
@@ -60,7 +63,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logOut,
     updateUserProfile,
   };
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

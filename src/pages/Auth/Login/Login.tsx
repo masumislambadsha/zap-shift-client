@@ -38,7 +38,7 @@ const Login = () => {
         toast.error(
           err.message.includes("wrong-password")
             ? "Incorrect password"
-            : "Invalid email or password"
+            : "Invalid email or password",
         );
       });
   };

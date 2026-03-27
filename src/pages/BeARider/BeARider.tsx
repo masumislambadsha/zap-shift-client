@@ -25,7 +25,9 @@ const BeARider = () => {
 
   // Regions from service centers data
   const regions = React.useMemo(() => {
-    return [...new Set(serviceCenters.map((center: ServiceCenter) => center.region))];
+    return [
+      ...new Set(serviceCenters.map((center: ServiceCenter) => center.region)),
+    ];
   }, [serviceCenters]);
 
   // Watch selected region to update districts
