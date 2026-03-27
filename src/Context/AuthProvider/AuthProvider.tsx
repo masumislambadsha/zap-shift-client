@@ -8,19 +8,24 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
+  User,
 } from "firebase/auth";
 import { auth } from "../../Firebase/firebase.init";
 
 const googleProvider = new GoogleAuthProvider();
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const registerUser = (email, password) => {
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const registerUser = (email: string, password: string) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-  const signInUser = (email, password) => {
+  const signInUser = (email: string, password: string) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -32,8 +37,8 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signOut(auth);
   };
-  const updateUserProfile = (profile) => {
-    return updateProfile(auth.currentUser, profile);
+  const updateUserProfile = (profile: { displayName?: string; photoURL?: string }) => {
+    return updateProfile(auth.currentUser!, profile);
   };
 
   useEffect(() => {
@@ -55,7 +60,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     updateUserProfile,
   };
-  return <AuthContext value={authInfo}>{children}</AuthContext>;
+  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

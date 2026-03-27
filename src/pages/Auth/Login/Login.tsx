@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FcGoogle } from "react-icons/fc";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaRegEye, FaEyeSlash } from "react-icons/fa";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
   const [loading] = useState(false);
@@ -16,7 +20,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormData>();
 
   const { signInUser, signInGoogle } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -24,7 +28,7 @@ const Login = () => {
   const location = useLocation();
   const from = location.state || "/";
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: LoginFormData) => {
     signInUser(data.email, data.password)
       .then(() => {
         toast.success("Logged in successfully!");
@@ -88,7 +92,7 @@ const Login = () => {
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">
-                    {errors.email.message}
+                    {errors.email?.message}
                   </p>
                 )}
               </div>
@@ -121,7 +125,7 @@ const Login = () => {
 
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">
-                    {errors.password.message}
+                    {errors.password?.message}
                   </p>
                 )}
               </div>

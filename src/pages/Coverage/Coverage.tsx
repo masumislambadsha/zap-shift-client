@@ -1,23 +1,29 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useLoaderData } from "react-router";
 
-const Coverage = () => {
-  const position = [23.8041, 90.4152];
-  const serviceCenters = useLoaderData();
-  const mapRef = useRef(null)
-   
-  const handleSearch = e  =>{
-    e.preventDefault()
-    const location = e.target.location.value
-    const district = serviceCenters.find(c => c.district.toLowerCase().includes(location.toLowerCase()))
-    if(district) {
-      const coord = [district.latitude,district.longitude ]
-      mapRef.current.flyTo(coord,10)
+interface ServiceCenter {
+  district: string;
+  latitude: number;
+  longitude: number;
+  // add other properties
+}
 
+const Coverage = () => {
+  const position: [number, number] = [23.8041, 90.4152];
+  const serviceCenters = useLoaderData() as ServiceCenter[];
+  const mapRef = useRef<any>(null);
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const location = (e.target as any).location.value;
+    const district = serviceCenters.find((c: ServiceCenter) => c.district.toLowerCase().includes(location.toLowerCase()));
+    if (district) {
+      const coord: [number, number] = [district.latitude, district.longitude];
+      mapRef.current?.flyTo(coord, 10);
     }
-  }
+  };
 
   return (
     <div>

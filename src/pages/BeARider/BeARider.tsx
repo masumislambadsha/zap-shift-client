@@ -1,22 +1,31 @@
-import React from "react";
-import riderImg from "../../assets/agent-pending.png";
 import { useForm, useWatch } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 
+interface ServiceCenter {
+  region: string;
+  district: string;
+}
+
+interface RiderFormData {
+  region: string;
+  district: string;
+  // add other fields as needed
+}
+
 const BeARider = () => {
-  const { register, control, handleSubmit } = useForm();
+  const { register, control, handleSubmit } = useForm<RiderFormData>();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   // Load serviceCenters from loader (fetch or SSR)
-  const serviceCenters = useLoaderData();
+  const serviceCenters = useLoaderData() as ServiceCenter[];
 
   // Regions from service centers data
   const regions = React.useMemo(() => {
-    return [...new Set(serviceCenters.map((center) => center.region))];
+    return [...new Set(serviceCenters.map((center: ServiceCenter) => center.region))];
   }, [serviceCenters]);
 
   // Watch selected region to update districts
@@ -24,11 +33,11 @@ const BeARider = () => {
   const districts = React.useMemo(() => {
     if (!selectedRegion) return [];
     return serviceCenters
-      .filter((center) => center.region === selectedRegion)
-      .map((center) => center.district);
+      .filter((center: ServiceCenter) => center.region === selectedRegion)
+      .map((center: ServiceCenter) => center.district);
   }, [serviceCenters, selectedRegion]);
 
-  const handleRiderApplication = (data) => {
+  const handleRiderApplication = (data: RiderFormData) => {
     console.log(data);
     axiosSecure.post("/riders", data).then((res) => {
       if (res.data.insertedId) {
